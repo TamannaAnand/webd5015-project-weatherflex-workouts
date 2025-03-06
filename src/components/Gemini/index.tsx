@@ -18,7 +18,7 @@ const Gemini = () => {
     
     try {
       // Use environment variable for API key
-      const apiKey = process.env.API_KEY!;
+      const apiKey = 'AIzaSyB6YqxAvZnZnLMGbmhNuGtu4ZhcYkLLPJc';
       
       if (!apiKey) {
         throw new Error('API key not found.');
