@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.5.0",
+    "@fortawesome/react-fontawesome": "github:fortawesome/react-fontawesome",
     "@prisma/client": "^5.22.0",
     "axios": "^1.6.2",
     "bcrypt": "^5.0.1",
