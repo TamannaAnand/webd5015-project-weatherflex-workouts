@@ -2,6 +2,7 @@ import About from "@/components/About";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Team from "@/components/Team";
 import { Metadata } from "next";
+import Gemini  from '../../../components/Gemini';
 
 //Just to commit my changes
 export const metadata: Metadata = {
@@ -16,6 +17,7 @@ const AboutPage = () => {
       <Breadcrumb pageName="About Us Page" />
       <About />
       <Team />
+      <Gemini />
     </main>
   );
 };
