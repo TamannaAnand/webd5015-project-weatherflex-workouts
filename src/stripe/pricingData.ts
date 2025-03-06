@@ -2,42 +2,29 @@ import { Price } from "@/types/price";
 
 export const pricingData: Price[] = [
   {
-    id: "price_1NQk5TLtGdPVhGLecVfQ7mn0",
-    unit_amount: 100 * 100,
+    unit_amount: 0 * 100,
+    nickname: "Free",
+    offers: ["1 AI-generated workout per request", "Basic weather insights"],
+  },
+  {
+    id: "price_1Qzfe0FKB8VC7JUerpGTuwKe",
+    unit_amount: 1 * 100,
     nickname: "Basic",
     offers: [
-      "1 User",
-      "All UI components",
-      "Lifetime access",
-      "Free updates",
-      "Use on 1 (one) project",
-      "3 Months support",
+      "2 AI-generated workouts per request",
+      "Daily weather-based fitness tips",
+      "Custom workout preferences",
     ],
   },
   {
-    id: "price_1NQk55LtGdPVhGLefU8AHqHr",
-    unit_amount: 200 * 100,
+    id: "price_1QzfkQFKB8VC7JUeTvmH6wxv",
+    unit_amount: 2 * 100,
     nickname: "Premium",
     offers: [
-      "5 Users",
-      "All UI components",
-      "Lifetime access",
-      "Free updates",
-      "Use on 1 (one) project",
-      "3 Months support",
-    ],
-  },
-  {
-    id: "price_1NQk4eLtGdPVhGLeZsZDsCNz",
-    unit_amount: 300 * 100,
-    nickname: "Business",
-    offers: [
-      "10 Users",
-      "All UI components",
-      "Lifetime access",
-      "Free updates",
-      "Use on 1 (one) project",
-      "3 Months support",
+      "All Basic Plan features",
+      "Workout tracking",
+      "Personalized recommendations",
+      "Advanced weather insights",
     ],
   },
 ];
