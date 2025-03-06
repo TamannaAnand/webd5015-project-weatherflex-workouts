@@ -288,6 +288,12 @@ const Header = () => {
 
                 {session?.user ? (
                   <>
+                    <Link
+                      href="/dashboard"
+                      className="dashboard-icon text-xl text-dark duration-300 ease-in-out hover:text-primary dark:text-white"
+                    >
+                      Dashboard
+                    </Link>
                     <p
                       className={`loginBtn px-7 py-3 text-base font-medium ${
                         !sticky && pathUrl === "/" ? "text-white" : "text-dark"
@@ -295,6 +301,7 @@ const Header = () => {
                     >
                       {session?.user?.name}
                     </p>
+
                     {pathUrl !== "/" || sticky ? (
                       <button
                         onClick={() => signOut()}
