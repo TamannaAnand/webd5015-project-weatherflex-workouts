@@ -1,5 +1,5 @@
 export type Price = {
-  id: string;
+  id?: string;
   unit_amount: number;
   nickname: string;
   offers: string[];
