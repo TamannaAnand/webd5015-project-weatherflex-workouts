@@ -11,12 +11,12 @@ importers:
       '@auth/prisma-adapter':
         specifier: ^1.5.0
         version: 1.6.0(@prisma/client@5.22.0(prisma@5.22.0))(nodemailer@6.10.0)
-      '@google/generative-ai':
-        specifier: ^0.23.0
-        version: 0.23.0
       '@fortawesome/react-fontawesome':
         specifier: github:fortawesome/react-fontawesome
         version: https://codeload.github.com/fortawesome/react-fontawesome/tar.gz/432b921d69d382c54ad9495fa9cbdcea539de05f(@fortawesome/fontawesome-svg-core@6.7.2)(react@19.0.0)
+      '@google/generative-ai':
+        specifier: ^0.23.0
+        version: 0.23.0
       '@prisma/client':
         specifier: ^5.22.0
         version: 5.22.0(prisma@5.22.0)
@@ -168,11 +168,6 @@ packages:
     resolution: {integrity: sha512-d9zaMRSTIKDLhctzH12MtXvJKSSUhaHcjV+2Z+GK+EEY7XKpP5yR4x+N3TAcHTcu963nIr+TMcCb4DBCYX1z6Q==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
 
-
-  '@google/generative-ai@0.23.0':
-    resolution: {integrity: sha512-8vGoguvLG22U3t9XpXvbxjxy/yfBhE27pqptz5QVKXwBSh9sUXXmZWS8ZdGMqifK7kiuZQCG2cjGJNUdBsgX+g==}
-    engines: {node: '>=18.0.0'}
-
   '@fortawesome/fontawesome-common-types@6.7.2':
     resolution: {integrity: sha512-Zs+YeHUC5fkt7Mg1l6XTniei3k4bwG/yo3iFUtZWd/pMx9g3fdvkSK9E0FOC+++phXOka78uJcYb8JaFkW52Xg==}
     engines: {node: '>=6'}
@@ -188,6 +183,9 @@ packages:
       '@fortawesome/fontawesome-svg-core': ~1 || ~6
       react: '>=16.3'
 
+  '@google/generative-ai@0.23.0':
+    resolution: {integrity: sha512-8vGoguvLG22U3t9XpXvbxjxy/yfBhE27pqptz5QVKXwBSh9sUXXmZWS8ZdGMqifK7kiuZQCG2cjGJNUdBsgX+g==}
+    engines: {node: '>=18.0.0'}
 
   '@humanwhocodes/config-array@0.13.0':
     resolution: {integrity: sha512-DZLEEqFWQFiyK6h5YIeynKx7JlvCYWL0cImfSRXZ9l4Sg2efkFGTuFf6vzXjK1cq6IYkU+Eg/JizXw+TD2vRNw==}
@@ -2535,8 +2533,6 @@ snapshots:
 
   '@eslint/js@8.57.1': {}
 
-  '@google/generative-ai@0.23.0': {}
-
   '@fortawesome/fontawesome-common-types@6.7.2': {}
 
   '@fortawesome/fontawesome-svg-core@6.7.2':
@@ -2549,6 +2545,7 @@ snapshots:
       prop-types: 15.8.1
       react: 19.0.0
 
+  '@google/generative-ai@0.23.0': {}
 
   '@humanwhocodes/config-array@0.13.0':
     dependencies:
