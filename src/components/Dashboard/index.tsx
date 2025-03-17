@@ -1,9 +1,13 @@
-"use client";
+
 import SectionTitle from "../Common/SectionTitle";
 import WeatherInfo from "./WeatherInfo";
 import WorkoutRecommendations from "./WorkoutRecommendation";
+import { fetchWeatherData } from "@/utils/fetchWeatherData";
 
-const Dashboard = () => {
+const Dashboard = async() => {
+
+  const weatherData = await fetchWeatherData()
+
   return (
     <section
       id="pricing"
@@ -18,7 +22,7 @@ const Dashboard = () => {
             center
           />
         </div>
-        <WeatherInfo />
+        <WeatherInfo weatherData={weatherData}/>
         <WorkoutRecommendations />
         <div className="-mx-4 flex flex-wrap justify-center">
         </div>
