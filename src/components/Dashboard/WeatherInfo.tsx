@@ -13,7 +13,7 @@ import { formatLocalTime } from "@/utils/fetchWeatherData";
  *
  * @returns {JSX.Element} A styled UI with weather details and suggested workouts.
  */
-const WeatherInfo = async ({ weatherData }) => {
+const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
   return (
     <div className="min-h-screen bg-white text-black p-6">
       
@@ -53,7 +53,7 @@ const WeatherInfo = async ({ weatherData }) => {
 
         {/* Forecast Section */}
         <div className="grid md:grid-cols-2 gap-4">
-          {weatherData.forecastedWeather.map((day, index) => (
+          {weatherData.forecastedWeather.map((day:any, index:any) => (
             <div key={index} className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center">
               <img src={day.day.condition.icon} alt="Weather Icon" className="w-12 h-12" />
               <div className="ml-4">
