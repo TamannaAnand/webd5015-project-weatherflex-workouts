@@ -28,7 +28,7 @@ const WeatherInfo = async ({ weatherData }) => {
       </div>
 
       {/* Weather Section */}
-      <div className="max-w-3xl mx-auto grid grid-cols-1 gap-6">
+      <div className="max-w-3xl mx-auto flex flex-row gap-6">
         
         {/* Current Weather Card */}
         <div className="bg-gray-100 shadow-lg rounded-xl p-6 text-center">
@@ -52,14 +52,16 @@ const WeatherInfo = async ({ weatherData }) => {
         </div>
 
         {/* Forecast Section */}
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 gap-4 mx-auto text-center items-center ">
           {weatherData.forecastedWeather.map((day, index) => (
-            <div key={index} className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center">
-              <img src={day.day.condition.icon} alt="Weather Icon" className="w-12 h-12" />
-              <div className="ml-4">
+            <div key={index} className="bg-gray-100 shadow-md rounded-lg p-4 flex flex-col items-center">
+              <img src={day.day.condition.icon} alt="Weather Icon" className="w-16 h-16 mx-auto" />
+              <div>
+                <div>
                 <h4 className="text-lg font-semibold text-blue-600">
                   {formatLocalTime(day.date)}
                 </h4>
+                </div>
                 <p className="text-sm">{day.day.condition.text}</p>
                 <p className="text-gray-600">
                   🌡️ {day.day.mintemp_c}°C - {day.day.maxtemp_c}°C
