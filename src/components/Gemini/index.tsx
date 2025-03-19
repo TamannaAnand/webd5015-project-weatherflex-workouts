@@ -1,16 +1,26 @@
 'use client'
-import React, { useState } from 'react';
-// import dotenv from 'dotenv';
+import React, { useState, useEffect } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
 
+// Define proper TypeScript props interface
+interface GeminiProps {
+  weatherCondition: string;
+}
 
-// dotenv.config();
-const Gemini = () => {
-  const [prompt, setPrompt] = useState('');
+const Gemini: React.FC<GeminiProps> = ({ weatherCondition }) => {
   const [response, setResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [exerciseType, setExerciseType] = useState('both'); // 'indoor', 'outdoor', or 'both'
 
+  // Auto-generate the prompt based on weather condition
+  const generatePrompt = () => {
+    return `The weather today is ${weatherCondition}. Can you recommend ${
+      exerciseType === 'indoor' ? 'indoor' : 
+      exerciseType === 'outdoor' ? 'outdoor' : 
+      'indoor & outdoor'
+    } exercises that would be appropriate for this weather?`;
+  };
 
   const generateContent = async () => {
     setLoading(true);
@@ -18,7 +28,7 @@ const Gemini = () => {
     
     try {
       // Use environment variable for API key
-      const apiKey = 'AIzaSyB6YqxAvZnZnLMGbmhNuGtu4ZhcYkLLPJc';
+      const apiKey = process.env.NEXT_PUBLIC_API_KEY!;
       
       if (!apiKey) {
         throw new Error('API key not found.');
@@ -37,10 +47,11 @@ const Gemini = () => {
         }
       });
       
-      // Generate content
+      // Generate content using auto-generated prompt
+      const prompt = generatePrompt();
       const result = await model.generateContent(prompt);
       setResponse(result.response.text());
-    } catch (err) {
+    } catch (err: any) {
       setError(`An error occurred: ${err}`);
       console.error(err);
     } finally {
@@ -48,47 +59,81 @@ const Gemini = () => {
     }
   };
 
+  // Generate content when exercise type changes
+  useEffect(() => {
+    if (weatherCondition) {
+      generateContent();
+    }
+  }, [exerciseType, weatherCondition]);
+
   return (
-    <>
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">AI Generator Exercises</h1>
+    <div className="p-4 bg-white shadow-lg rounded-xl max-w-3xl mx-auto mt-6">
+      <h2 className="text-xl font-bold mb-4">Exercise Recommendations</h2>
       
-      <div className="mb-4">
-        <label htmlFor="prompt" className="block mb-2">Response:</label>
-        <textarea 
-          id="prompt"
-          className="w-full p-2 border rounded"
-          rows={4}
-          value={prompt}
-          placeholder='The weather today is sunny can you recommend indoor & outdoor exercises.'
-          onChange={(e) => setPrompt(e.target.value)}
-        />
+      {/* Exercise Type Selection */}
+      <div className="flex justify-center mb-6">
+        <div className="inline-flex rounded-md shadow-sm" role="group">
+          <button
+            type="button"
+            className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
+              exerciseType === 'indoor' 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+            }`}
+            onClick={() => setExerciseType('indoor')}
+          >
+            Indoor Exercises
+          </button>
+          <button
+            type="button"
+            className={`px-4 py-2 text-sm font-medium ${
+              exerciseType === 'both' 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+            }`}
+            onClick={() => setExerciseType('both')}
+          >
+            Both
+          </button>
+          <button
+            type="button"
+            className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
+              exerciseType === 'outdoor' 
+                ? 'bg-blue-600 text-white' 
+                : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
+            }`}
+            onClick={() => setExerciseType('outdoor')}
+          >
+            Outdoor Exercises
+          </button>
+        </div>
       </div>
       
-      <button 
-        className="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 disabled:bg-blue-300"
-        onClick={generateContent}
-        disabled={loading || !prompt.trim()}
-      >
-        {loading ? 'Generating...' : 'Generate Response'}
-      </button>
+      {/* Loading State */}
+      {loading && (
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
+      )}
       
+      {/* Error Message */}
       {error && (
         <div className="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded">
           {error}
         </div>
       )}
       
-      {response && (
+      {/* AI Response */}
+      {response && !loading && (
         <div className="mt-4">
-          <h2 className="text-lg font-semibold mb-2">Response:</h2>
-          <div className="p-3 bg-gray-100 border rounded">
-            {response}
+          <div className="p-4 bg-gray-100 border rounded-lg">
+            <div className="prose max-w-none">
+              {response}
+            </div>
           </div>
         </div>
       )}
     </div>
-    </>
   );
 }
 
