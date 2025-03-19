@@ -1,8 +1,11 @@
 
 import SectionTitle from "../Common/SectionTitle";
+import Gemini from "../Gemini";
+import CardWrapper from "./cards";
+import RevenueChart from "./revenue-chart";
 import WeatherInfo from "./WeatherInfo";
-import WorkoutRecommendations from "./WorkoutRecommendation";
 import { fetchWeatherData } from "@/utils/fetchWeatherData";
+
 
 const Dashboard = async() => {
 
@@ -17,13 +20,22 @@ const Dashboard = async() => {
         <div className="mb-[60px]">
           <SectionTitle
             subtitle="Dashboard"
-            title="Dashboard"
+            title="Welome to your Dashboard!"
             paragraph=""
             center
           />
         </div>
-        <WeatherInfo weatherData={weatherData}/>
-        <WorkoutRecommendations />
+        <div>
+        <WeatherInfo weatherData={weatherData} />
+        </div>
+        <div className="flex justify-between gap-4">
+          <div className="w-full lg:w-1/3">
+            <CardWrapper />
+          </div>
+          <div className="w-full lg:w-2/3">
+            <RevenueChart />
+          </div>
+        </div>
         <div className="-mx-4 flex flex-wrap justify-center">
         </div>
       </div>

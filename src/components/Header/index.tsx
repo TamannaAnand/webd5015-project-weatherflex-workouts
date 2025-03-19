@@ -289,7 +289,7 @@ const Header = () => {
                 {session?.user ? (
                   <>
                     <Link
-                      href="/dashboard"
+                      href="/adminDashboard"
                       className="dashboard-icon text-xl text-dark duration-300 ease-in-out hover:text-primary dark:text-white"
                     >
                       Dashboard
