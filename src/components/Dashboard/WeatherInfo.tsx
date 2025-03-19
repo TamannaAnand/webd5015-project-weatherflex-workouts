@@ -1,18 +1,6 @@
 import { formatLocalTime } from "@/utils/fetchWeatherData";
+import Gemini from "@/components/Gemini"; // Adjust the import path as needed
 
-/**
- * WeatherInfo Component
- * 
- * Displays the current weather, a 2-day forecast, and workout recommendations
- * based on weather conditions.
- *
- * @param {Object} weatherData - The weather data object containing:
- *   - location: { name, region, country, localtime }
- *   - currentWeather: { temp_c, feelslike_c, condition, wind_kph, humidity, uv }
- *   - forecastedWeather: Array of daily forecast objects
- *
- * @returns {JSX.Element} A styled UI with weather details and suggested workouts.
- */
 const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
   return (
     <div className="min-h-screen bg-white text-black p-6">
@@ -28,6 +16,8 @@ const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
       </div>
 
       {/* Weather Section */}
+
+      <div className="max-w-3xl mx-auto grid grid-cols-1 gap-6">
       <div className="max-w-3xl mx-auto flex flex-row gap-6">
         
         {/* Current Weather Card */}
@@ -79,7 +69,12 @@ const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
         </p>
       </div>
 
-      {/* Call-to-Action Button */}
+      {/* Add Gemini component here */}
+      <Gemini weatherCondition={weatherData.currentWeather.condition.text} />
+      
+      {/* You can remove your old static recommendations section */}
+      
+      {/* Call-to-Action Button (if you want to keep it) */}
       <div className="flex justify-center mt-6">
         <button className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-blue-700">
           Plan My Workout →
