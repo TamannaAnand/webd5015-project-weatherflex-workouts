@@ -14,7 +14,7 @@ export const fetchWeatherData = async () => {
       "http://api.weatherapi.com/v1/forecast.json",
       {
         params: {
-          key: process.env.WEATHER_API_KEY, // API key stored securely in environment variables
+          key: process.env.NEXT_PUBLIC_WEATHER_API_KEY, // API key stored securely in environment variables
           q: "Halifax, Canada", // Location for weather data
           days: 3, // Fetching forecast for the next three days
         },

@@ -1,16 +1,16 @@
 "use client";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
-
 import menuData from "./menuData";
+import useSignOut from "@/utils/useSignOut";
+import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { data: session } = useSession();
-
+  const handleSignOut = useSignOut();
   const pathUrl = usePathname();
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -289,7 +289,7 @@ const Header = () => {
                 {session?.user ? (
                   <>
                     <Link
-                      href="/adminDashboard"
+                      href="/weatherflex"
                       className="dashboard-icon text-xl text-dark duration-300 ease-in-out hover:text-primary dark:text-white"
                     >
                       Dashboard
@@ -304,14 +304,14 @@ const Header = () => {
 
                     {pathUrl !== "/" || sticky ? (
                       <button
-                        onClick={() => signOut()}
+                        onClick={handleSignOut}
                         className="signUpBtn rounded-lg bg-primary bg-opacity-100 px-6 py-3 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-20 hover:text-dark"
                       >
                         Sign Out
                       </button>
                     ) : (
                       <button
-                        onClick={() => signOut()}
+                        onClick={handleSignOut}
                         className="signUpBtn rounded-lg bg-white bg-opacity-20 px-6 py-3 text-base font-medium text-white duration-300 ease-in-out hover:bg-opacity-100 hover:text-dark"
                       >
                         Sign Out

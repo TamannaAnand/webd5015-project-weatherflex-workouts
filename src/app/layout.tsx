@@ -10,6 +10,7 @@ import "../styles/prism-vsc-dark-plus.css";
 import ToasterContext from "./api/contex/ToasetContex";
 import { useEffect, useState } from "react";
 import PreLoader from "@/components/Common/PreLoader";
+import { usePathname } from "next/navigation";
 
 export default function RootLayout({
   children,
@@ -17,6 +18,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   const [loading, setLoading] = useState<boolean>(true);
+  const pathname = usePathname();
+  const showHeader = !pathname?.includes("/weatherflex");
+  const showFooter = !pathname?.includes("/weatherflex");
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
@@ -31,7 +35,7 @@ export default function RootLayout({
       <head />
 
       <body>
-        {loading ? (
+      {loading ? (
           <PreLoader />
         ) : (
           <SessionProvider>
@@ -41,9 +45,9 @@ export default function RootLayout({
               defaultTheme="light"
             >
               <ToasterContext />
-              <Header />
+              {showHeader && <Header />}
               {children}
-              <Footer />
+              {showFooter && <Footer />}
               <ScrollToTop />
             </ThemeProvider>
           </SessionProvider>
