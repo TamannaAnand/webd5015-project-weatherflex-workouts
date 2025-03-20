@@ -8,7 +8,7 @@ const iconMap = {
   progress: faClipboardCheck,
 };
 
-export default async function CardWrapper() {
+export default function CardWrapper() {
   // const {
   //   numberOfInvoices,
   //   numberOfCustomers,

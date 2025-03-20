@@ -51,10 +51,8 @@ const Gemini = () => {
   return (
     <>
     <div className="p-4">
-      <h1 className="text-xl font-bold mb-4">AI Generator Exercises</h1>
       
       <div className="mb-4">
-        <label htmlFor="prompt" className="block mb-2">Response:</label>
         <textarea 
           id="prompt"
           className="w-full p-2 border rounded"

@@ -2,9 +2,21 @@ import { generateYAxis } from '@/app/lib/utils';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChartLine } from "@fortawesome/free-solid-svg-icons";
 import { fetchRevenue } from '@/app/lib/data';
+import { useEffect, useState } from 'react';
 
-export default async function RevenueChart() {
-  const revenue = await fetchRevenue();
+export default function RevenueChart() {
+  const [revenue, setRevenue] = useState([]);
+
+  useEffect(() => {
+    const doFetch = async () => {
+      const response = await fetchRevenue();
+
+      setRevenue(response);
+    }
+
+    doFetch()
+  }, [])
+
   const chartHeight = 350; // Reduced chart height
 
   const { yAxisLabels, topLabel } = generateYAxis(revenue);

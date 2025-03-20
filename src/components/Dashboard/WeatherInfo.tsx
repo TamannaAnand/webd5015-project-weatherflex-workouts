@@ -1,4 +1,5 @@
 import { formatLocalTime } from "@/utils/fetchWeatherData";
+import Gemini from "../Gemini";
 
 /**
  * WeatherInfo Component
@@ -13,7 +14,7 @@ import { formatLocalTime } from "@/utils/fetchWeatherData";
  *
  * @returns {JSX.Element} A styled UI with weather details and suggested workouts.
  */
-const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
+const WeatherInfo =  ({ weatherData }:{weatherData:any}) => {
   return (
     <div className="min-h-screen bg-white text-black p-6">
       
@@ -28,10 +29,10 @@ const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
       </div>
 
       {/* Weather Section */}
-      <div className="max-w-3xl mx-auto flex flex-row gap-6">
+      <div className="flex flex-col md:flex-row gap-6">
         
         {/* Current Weather Card */}
-        <div className="bg-gray-100 shadow-lg rounded-xl p-6 text-center">
+        <div className="bg-gray-100 shadow-lg rounded-xl p-6 text-center flex-1">
           <img
             src={weatherData.currentWeather.condition.icon}
             alt="Weather Icon"
@@ -50,40 +51,32 @@ const WeatherInfo = async ({ weatherData }:{weatherData:any}) => {
             <p>🔆 UV Index: {weatherData.currentWeather.uv}</p>
           </div>
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="gap-4">
           {weatherData.forecastedWeather.map((day:any, index:any) => (
-            <div key={index} className="bg-gray-100 shadow-md rounded-lg p-4 flex items-center">
+            <div key={index} className="bg-gray-100 shadow-md rounded-lg p-4 flex flex-1">
               <img src={day.day.condition.icon} alt="Weather Icon" className="w-12 h-12" />
               <div className="ml-4">
                 <h4 className="text-lg font-semibold text-blue-600">
                   {formatLocalTime(day.date)}
                 </h4>
                 </div>
-                <p className="text-sm">{day.day.condition.text}</p>
-                <p className="text-gray-600">
-                  🌡️ {day.day.mintemp_c}°C - {day.day.maxtemp_c}°C
-                </p>
-                <p className="text-gray-600">💨 Wind: {day.day.maxwind_kph} km/h</p>
+               
+               <div className="flex flex-col gap-2 ml-4 flex-wrap">
+                  <p className="text-gray-600 text-nowrap">
+                    🌡️ {day.day.mintemp_c}°C - {day.day.maxtemp_c}°C
+                  </p>
+                  <p className="text-gray-600 text-nowrap">💨 Wind: {day.day.maxwind_kph} km/h</p>
+                  <p className="text-sm">Conditions: {day.day.condition.text}</p>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
       </div>
 
       {/* Workout Recommendations */}
       <div className="max-w-3xl mx-auto mt-8 bg-gray-100 shadow-lg rounded-xl p-6 text-center">
-        <h3 className="text-xl font-semibold mb-2">🔥 Recommended Workout</h3>
-        <p className="text-lg text-blue-600 font-bold">🏃 Outdoor Jogging</p>
-        <p className="text-gray-600">
-          If too cold, try 🏋️ Indoor HIIT or 🧘 Yoga
-        </p>
-      </div>
-
-      {/* Call-to-Action Button */}
-      <div className="flex justify-center mt-6">
-        <button className="bg-blue-600 text-white font-semibold px-6 py-3 rounded-full shadow-md hover:bg-blue-700">
-          Plan My Workout →
-        </button>
+        <h3 className="text-xl font-semibold mb-2">🔥 AI Generated Workout</h3>
+        <Gemini/>
       </div>
       
     </div>
