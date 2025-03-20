@@ -78,7 +78,6 @@ const WeatherInfo =  ({ weatherData }:{weatherData:any}) => {
         <h3 className="text-xl font-semibold mb-2">🔥 AI Generated Workout</h3>
         <Gemini/>
       </div>
-      
     </div>
   );
 };
