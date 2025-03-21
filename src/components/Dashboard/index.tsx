@@ -8,7 +8,7 @@ const Dashboard = () => {
   // const weatherData = await fetchWeatherData();
   const handleSignOut = useSignOut();
 
-  const [weatherData, setWeatherData] = useState(null);
+  const [weatherData, setWeatherData] = useState<{ currentWeather: { dateTime: any; condition: any; icon: string; temp: any; feelsLike: any; windSpeed: string; humidity: any; uvi: any; windDir: any; }; forecastedWeather: any[]; } | undefined>(undefined);
 
   useEffect(() => {
     const doFetch = async () => {
