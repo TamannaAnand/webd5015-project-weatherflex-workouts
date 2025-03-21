@@ -31,7 +31,7 @@ const Gemini = () => {
     const sections = formatted.split(/(?=\b(?:Cardio|Strength Training|Other))/g);
     // Create HTML with proper formatting
     return (
-<div className="space-y-4">
+      <div className="space-y-4">
         {sections.map((section, index) => {
           if (!section.trim()) return null;
           // Split the section title from content
@@ -46,26 +46,26 @@ const Gemini = () => {
           const exercises = content.split(/(?=\b[A-Z][a-z]+:)/g)
             .filter(ex => ex.trim());
           return (
-<div key={index} className="bg-gray-50 p-4 rounded-lg">
-<h3 className="text-lg font-bold text-blue-600 mb-2">{title}</h3>
-<ul className="space-y-2">
+            <div key={index} className="bg-gray-50 p-4 rounded-lg">
+              <h3 className="text-lg font-bold text-blue-600 mb-2">{title}</h3>
+              <ul className="space-y-2">
                 {exercises.map((exercise, exIdx) => {
                   // Split the exercise name from description
                   const exerciseParts = exercise.trim().split(':');
                   const exName = exerciseParts[0];
                   const exDesc = exerciseParts.slice(1).join(':');
                   return (
-<li key={exIdx} className="ml-4">
-<span className="font-semibold">{exName}:</span>
+                    <li key={exIdx} className="ml-4">
+                      <span className="font-semibold">{exName}:</span>
                       {exDesc}
-</li>
+                    </li>
                   );
                 })}
-</ul>
-</div>
+              </ul>
+            </div>
           );
         })}
-</div>
+      </div>
     );
   };
  
@@ -124,89 +124,84 @@ const Gemini = () => {
     }
   }, [exerciseType, weatherCondition]);
  
-  // Manual trigger for testing
-  const handleManualGenerate = () => {
-    generateContent();
+  // Handle exercise type button clicks
+  const handleExerciseTypeChange = (type: string) => {
+    setExerciseType(type);
+    // We don't automatically generate content here anymore
   };
  
-  useEffect(() => {
-    if (weatherCondition) {
-      generateContent();
-    }
-  }, [generateContent, weatherCondition, exerciseType]);
- 
   return (
-<div className="p-4 bg-white shadow-lg rounded-xl max-w-3xl mx-auto mt-6">
-<h2 className="text-xl font-bold mb-4">Exercise Recommendations for {weatherCondition} Weather</h2>
-<div className="flex justify-center mb-6">
-<div className="inline-flex rounded-md shadow-sm" role="group">
-<button
+    <div className="p-4 bg-white shadow-lg rounded-xl max-w-3xl mx-auto mt-6">
+      <h2 className="text-xl font-bold mb-4">Exercise Recommendations for {weatherCondition} Weather</h2>
+      <div className="flex justify-center mb-6">
+        <div className="inline-flex rounded-md shadow-sm" role="group">
+          <button
             type="button"
             className={`px-4 py-2 text-sm font-medium rounded-l-lg ${
               exerciseType === 'indoor' 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
             }`}
-            onClick={() => setExerciseType('indoor')}
->
+            onClick={() => handleExerciseTypeChange('indoor')}
+          >
             Indoor Exercises
-</button>
-<button
+          </button>
+          <button
             type="button"
             className={`px-4 py-2 text-sm font-medium ${
               exerciseType === 'both' 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
             }`}
-            onClick={() => setExerciseType('both')}
->
+            onClick={() => handleExerciseTypeChange('both')}
+          >
             Both
-</button>
-<button
+          </button>
+          <button
             type="button"
             className={`px-4 py-2 text-sm font-medium rounded-r-lg ${
               exerciseType === 'outdoor' 
                 ? 'bg-blue-600 text-white' 
                 : 'bg-gray-100 text-gray-800 hover:bg-gray-200'
             }`}
-            onClick={() => setExerciseType('outdoor')}
->
+            onClick={() => handleExerciseTypeChange('outdoor')}
+          >
             Outdoor Exercises
-</button>
-</div>
-</div>
-      {/* Manual regenerate button for debugging */}
-<div className="mb-4">
-<button 
-          onClick={handleManualGenerate}
+          </button>
+        </div>
+      </div>
+      {/* Generate button */}
+      <div className="mb-4">
+        <button 
+          onClick={generateContent}
           className="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700"
->
-          Regenerate Recommendations
-</button>
-</div>
+        >
+          Generate Recommendations
+        </button>
+      </div>
       {/* Debug information */}
-<div className="mb-4 p-3 bg-gray-100 border rounded-lg text-sm">
-<p><strong>Weather:</strong> {weatherCondition || 'Not set'}</p>
-<p><strong>Exercise Type:</strong> {exerciseType}</p>
-</div>
+      <div className="mb-4 p-3 bg-gray-100 border rounded-lg text-sm">
+        <p><strong>Weather:</strong> {weatherCondition || 'Not set'}</p>
+        <p><strong>Exercise Type:</strong> {exerciseType}</p>
+      </div>
       {loading && (
-<div className="flex justify-center items-center py-8">
-<div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
-</div>
+        <div className="flex justify-center items-center py-8">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
+        </div>
       )}
       {error && (
-<div className="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded">
+        <div className="mt-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded">
           {error}
-</div>
+        </div>
       )}
       {!loading && formattedResponse && (
-<div className="mt-4">
-<div className="p-4 bg-gray-100 border rounded-lg">
+        <div className="mt-4">
+          <div className="p-4 bg-gray-100 border rounded-lg">
             {formattedResponse}
-</div>
-</div>
+          </div>
+        </div>
       )}
-</div>
+    </div>
   );
 }
  
