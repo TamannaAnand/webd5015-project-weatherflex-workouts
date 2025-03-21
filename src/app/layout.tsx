@@ -19,8 +19,8 @@ export default function RootLayout({
 }) {
   const [loading, setLoading] = useState<boolean>(true);
   const pathname = usePathname();
-  const showHeader = !pathname?.includes("/weatherflex");
-  const showFooter = !pathname?.includes("/weatherflex");
+  const showHeader = !pathname?.includes("/weatherflex") && !pathname?.includes("/adminDashboard");
+  const showFooter = !pathname?.includes("/weatherflex") && !pathname?.includes("/adminDashboard");
 
   useEffect(() => {
     setTimeout(() => setLoading(false), 1000);
