@@ -3,7 +3,7 @@ import React, { useState, useCallback, ReactElement } from 'react';
 import { GoogleGenerativeAI } from '@google/generative-ai';
  
 // Add prop for weather data from parent component
-const Gemini = ({ weatherData }: { weatherData?: any }) => {
+const PremiumGemini = ({ weatherData }: { weatherData?: any }) => {
   const [response, setResponse] = useState('');
   const [formattedResponse, setFormattedResponse] = useState<ReactElement | null>(null);
   const [loading, setLoading] = useState(false);
@@ -227,4 +227,4 @@ const Gemini = ({ weatherData }: { weatherData?: any }) => {
   );
 }
  
-export default Gemini;
+export default PremiumGemini;

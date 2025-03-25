@@ -2,7 +2,7 @@ import About from "@/components/About";
 import Breadcrumb from "@/components/Common/Breadcrumb";
 import Team from "@/components/Team";
 import { Metadata } from "next";
-import Gemini  from '../../../components/Gemini';
+import Gemini  from '../../../components/PremiumGemini';
 
 //Just to commit my changes
 export const metadata: Metadata = {
