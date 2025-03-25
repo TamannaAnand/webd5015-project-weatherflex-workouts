@@ -1,10 +1,12 @@
 "use client";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import useSignOut from "@/utils/useSignOut";
 
 const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const handleSignOut = useSignOut();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -27,7 +29,10 @@ const AdminDashboard = () => {
           Admin Dashboard
         </h1>
         <div className="flex items-center space-x-4">
-          <button className="rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700">
+          <button
+            onClick={() => router.push("/adminDashboard/create")}
+            className="rounded-md bg-white px-3 py-2 text-sm font-medium text-gray-700 shadow-sm hover:bg-gray-50 dark:bg-gray-800 dark:text-gray-200 dark:hover:bg-gray-700"
+          >
             Add User
           </button>
           <button
@@ -86,9 +91,7 @@ const AdminDashboard = () => {
                   Edit
                 </button>
                 <button
-                  onClick={() => {
-                    // handleDelete(movie._id);
-                  }}
+                   onClick={() => router.push(`/adminDashboard/delete/${user.id}`)}
                   className="rounded bg-red-500 px-2 py-1 text-sm text-white hover:bg-red-600"
                 >
                   Delete
