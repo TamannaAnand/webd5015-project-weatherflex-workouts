@@ -75,23 +75,20 @@ const AdminDashboard = () => {
               </td>
               <td className="space-x-1 border border-gray-300 px-4 py-2 text-center">
                 <button
-                  onClick={() => {
-                    // handleDetails(movie._id);
-                  }}
+                  onClick={() => router.push(`/adminDashboard/details/${user.id}`)}
                   className="rounded bg-green-500 px-2 py-1 text-sm text-white hover:bg-green-600"
                 >
                   Details
                 </button>
                 <button
-                  onClick={() => {
-                    // handleEdit(movie._id);
-                  }}
+                  onClick={() => router.push(`/adminDashboard/update/${user.id}`)}
+
                   className="rounded bg-blue-500 px-2 py-1 text-sm text-white hover:bg-blue-600"
                 >
                   Edit
                 </button>
                 <button
-                   onClick={() => router.push(`/adminDashboard/delete/${user.id}`)}
+                  onClick={() => router.push(`/adminDashboard/delete/${user.id}`)}
                   className="rounded bg-red-500 px-2 py-1 text-sm text-white hover:bg-red-600"
                 >
                   Delete
