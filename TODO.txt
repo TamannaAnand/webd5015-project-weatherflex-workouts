@@ -1,0 +1,5 @@
+- modify the user model in prisma and add role property
+- regenrate the client
+- push the change to the db
+- extend the session to contain that info
+- display admin or user depending on that info

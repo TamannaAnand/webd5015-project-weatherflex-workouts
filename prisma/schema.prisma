@@ -38,12 +38,19 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+
+enum Role {
+  User
+  Admin
+}
+
 model User {
   id                    String    @id @default(cuid())
   name                  String?
   email                 String?   @unique
   emailVerified         DateTime?
   image                 String?
+  role                  Role @default(User)
   password              String?
   passwordResetToken    String?   @unique
   passwordResetTokenExp DateTime?

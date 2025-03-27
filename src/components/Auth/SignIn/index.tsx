@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ import SocialSignIn from "../SocialSignIn";
 import SwitchOption from "../SwitchOption";
 import MagicLink from "../MagicLink";
 import Loader from "@/components/Common/Loader";
+import { Session } from "next-auth";
 
 const Signin = () => {
   const router = useRouter();
@@ -36,9 +37,25 @@ const Signin = () => {
         }
 
         if (callback?.ok && !callback?.error) {
-          toast.success("Login successful");
-          setLoading(false);
-          router.push("/weatherflex");
+          let session: Session | null = null;
+          getSession()
+            .then((response) => {
+              session = response;
+              switch (session?.user?.role) {
+                case "User":
+                  toast.success("Login successful");
+                  router.push("/weatherflex");
+                  break;
+                case "Admin":
+                  toast.success("Login successful");
+                  router.push("/adminDashboard");
+                  break;
+                default:
+                  toast.error("Unauthorized user");
+                  router.push("/signin");
+              }
+            })
+            .catch((error) => console.log(`Fetching Session error: ${error}`));
         }
       })
       .catch((err) => {
