@@ -2,9 +2,10 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import useSignOut from "@/utils/useSignOut";
+import { User } from "next-auth"
 
 const AdminDashboard = () => {
-  const [users, setUsers] = useState([]);
+  const [users, setUser] = useState([]);
   const handleSignOut = useSignOut();
   const router = useRouter();
 
@@ -13,7 +14,7 @@ const AdminDashboard = () => {
       try {
         const response = await fetch("/api/users");
         const data = await response.json();
-        setUsers(data);
+        setUser(data);
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -65,13 +66,13 @@ const AdminDashboard = () => {
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
+          {users.map((user: any) => (
             <tr key={user.id} className="hover:bg-gray-100">
               <td className="border border-gray-300 px-4 py-2">{user.id}</td>
               <td className="border border-gray-300 px-4 py-2">{user.name}</td>
               <td className="border border-gray-300 px-4 py-2">{user.email}</td>
               <td className="border border-gray-300 px-4 py-2">
-                {new Date(user.createdAt).toLocaleDateString()}
+                N/A
               </td>
               <td className="space-x-1 border border-gray-300 px-4 py-2 text-center">
                 <button
