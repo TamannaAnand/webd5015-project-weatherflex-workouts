@@ -2,8 +2,13 @@ import { NextResponse } from "next/server";
 import { prisma } from "@/utils/prismaDB";
 
 // GET user details by ID
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(req: Request, { params }:  { params?: { id?: string } }) {
   try {
+    // Ensure params and id exist
+    if (!params || !params.id) {
+      return NextResponse.json({ message: "User ID is required" }, { status: 400 });
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: params.id },
     });
@@ -14,7 +19,8 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Error fetching user details", error }, { status: 500 });
+    console.error("Error fetching user details:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
@@ -33,10 +39,11 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
   }
 }
 
-// DELETE a user by ID
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+// DELETE a user by id 
+export async function DELETE(req: Request) {
   try {
-    await prisma.user.delete({ where: { id: params.id } });
+    const { id } = await req.json(); // Extract user ID from request body
+    await prisma.user.delete({ where: { id } });
     return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Error deleting user", error }, { status: 500 });

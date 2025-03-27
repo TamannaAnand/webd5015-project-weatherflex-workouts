@@ -8,7 +8,7 @@ const DeleteUser = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await fetch("/api/users", {
+      const response = await fetch("/api/users/[id]", {
         method: "DELETE",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: userId }),

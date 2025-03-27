@@ -22,13 +22,3 @@ export async function POST(req: Request) {
   }
 }
 
-// DELETE a user
-export async function DELETE(req: Request) {
-  try {
-    const { id } = await req.json(); // Extract user ID from request body
-    await prisma.user.delete({ where: { id } });
-    return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
-  } catch (error) {
-    return NextResponse.json({ message: "Error deleting user", error }, { status: 500 });
-  }
-}
