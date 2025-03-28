@@ -1,5 +1,5 @@
 "use client";
-import { signIn } from "next-auth/react";
+import { getSession, signIn } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ import SocialSignIn from "../SocialSignIn";
 import SwitchOption from "../SwitchOption";
 import MagicLink from "../MagicLink";
 import Loader from "@/components/Common/Loader";
+import { Session } from "next-auth";
 
 const Signin = () => {
   const router = useRouter();
@@ -26,25 +27,50 @@ const Signin = () => {
     e.preventDefault();
 
     setLoading(true);
+    // Attempt to sign in using credentials
     signIn("credentials", { ...loginData, redirect: false })
       .then((callback) => {
+        // If sign-in returns an error
         if (callback?.error) {
-          toast.error(callback?.error);
-          console.log(callback?.error);
-          setLoading(false);
-          return;
+          toast.error(callback?.error); // Show error toast
+          console.log(callback?.error); // Log the error
+          setLoading(false); // Stop the loading state
+          return; // Exit early
         }
 
+        // If sign-in is successful and there's no error
         if (callback?.ok && !callback?.error) {
-          toast.success("Login successful");
-          setLoading(false);
-          router.push("/weatherflex");
+          let session: Session | null = null;
+
+          // Fetch the current session
+          getSession()
+            .then((response) => {
+              session = response; // Store session response
+
+              // Redirect user based on their role
+              switch (session?.user?.role) {
+                case "User":
+                  toast.success("Login successful"); // Show success toast
+                  router.push("/weatherflex"); // Redirect to user dashboard
+                  break;
+                case "Admin":
+                  toast.success("Login successful"); // Show success toast
+                  router.push("/adminDashboard"); // Redirect to admin dashboard
+                  break;
+                default:
+                  toast.error("Unauthorized user"); // Handle unexpected role
+                  router.push("/signin"); // Redirect to sign-in page
+              }
+            })
+            .catch(
+              (error) => console.log(`Fetching Session error: ${error}`), // Log session fetch error
+            );
         }
       })
       .catch((err) => {
-        setLoading(false);
-        console.log(err.message);
-        toast.error(err.message);
+        setLoading(false); // Stop the loading state
+        console.log(err.message); // Log any unexpected sign-in error
+        toast.error(err.message); // Show error toast
       });
   };
 
