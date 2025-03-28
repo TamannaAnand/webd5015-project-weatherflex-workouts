@@ -1,9 +1,18 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/utils/prismaDB";
 
-// GET user details by ID
-export async function GET(req: Request, { params }: { params: { id: string } }) {
+export async function GET(
+  req: NextRequest, 
+  context: { params: Promise<{ id: string }> }
+) {
   try {
+    const params = await context.params;
+
+    // Ensure id exists
+    if (!params.id) {
+      return NextResponse.json({ message: "User ID is required" }, { status: 400 });
+    }
+
     const user = await prisma.user.findUnique({
       where: { id: params.id },
     });
@@ -14,14 +23,34 @@ export async function GET(req: Request, { params }: { params: { id: string } }) 
 
     return NextResponse.json(user, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Error fetching user details", error }, { status: 500 });
+    console.error("Error fetching user details:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
 // PUT (Edit) user details
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
+export async function PUT(
+  req: NextRequest, 
+  context: { params: Promise<{ id: string }> }
+) {
   try {
+    const params = await context.params;
+
+    // Ensure id exists
+    if (!params.id) {
+      return NextResponse.json({ message: "User ID is required" }, { status: 400 });
+    }
+
     const body = await req.json();
+
+    const user = await prisma.user.findUnique({
+      where: { id: params.id },
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
     const updatedUser = await prisma.user.update({
       where: { id: params.id },
       data: body,
@@ -29,14 +58,16 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
     return NextResponse.json(updatedUser, { status: 200 });
   } catch (error) {
-    return NextResponse.json({ message: "Error updating user", error }, { status: 500 });
+    console.error("Error updating user details:", error);
+    return NextResponse.json({ message: "Internal Server Error" }, { status: 500 });
   }
 }
 
-// DELETE a user by ID
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
+// DELETE a user by id 
+export async function DELETE(req: Request) {
   try {
-    await prisma.user.delete({ where: { id: params.id } });
+    const { id } = await req.json(); // Extract user ID from request body
+    await prisma.user.delete({ where: { id } });
     return NextResponse.json({ message: "User deleted successfully" }, { status: 200 });
   } catch (error) {
     return NextResponse.json({ message: "Error deleting user", error }, { status: 500 });

@@ -1,5 +1,6 @@
 import formatUnixTimestamp from "@/utils/formatUnixTimestamp";
 import PremiumGemini from "../PremiumGemini";
+import FreeGemini from "../FreeGemini";
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
   return (
@@ -74,6 +75,7 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
         <h3 className="mb-2 text-xl font-semibold">🔥 AI Generated Workout</h3>
         {/* Pass the weather data to the Gemini component */}
         <PremiumGemini weatherData={weatherData} />
+        {/* <FreeGemini weatherData={weatherData} /> */}
       </div>
     </div>
   );

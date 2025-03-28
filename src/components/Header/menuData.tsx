@@ -1,4 +1,5 @@
 import { Menu } from "@/types/menu";
+import { useSession } from "next-auth/react";
 
 const menuData: Menu[] = [
   {
@@ -20,7 +21,7 @@ const menuData: Menu[] = [
     newTab: false,
   },
   {
-    id: 5,
+    id: 4,
     title: "Contact",
     path: "/contact",
     newTab: false,
