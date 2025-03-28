@@ -34,14 +34,28 @@ const FreeGemini = ({ weatherData }: { weatherData?: any }) => {
     }
   };
   
-  // Simplified format response
+  // Updated format response to handle structured response
   const formatResponse = (text: string): ReactElement => {
     // Remove markdown formatting
     let formatted = text.replace(/\*\*\*/g, '').replace(/\*\*/g, '').replace(/\*/g, '');
     
+    // Split the response into individual exercises
+    const exercises = formatted.split('\n').filter(line => line.trim() !== '');
+    
     return (
       <div className="space-y-4">
-        <p className="bg-gray-50 p-4 rounded-lg">{formatted}</p>
+        <ul className="bg-gray-50 p-4 rounded-lg space-y-3">
+          {exercises.map((exercise, index) => {
+            // Split each exercise into name and description
+            const [name, description] = exercise.split(':').map(part => part.trim());
+            return (
+              <li key={index} className="bg-white p-3 rounded shadow-sm">
+                <span className="font-semibold block mb-1">{name}:</span>
+                <span className="text-gray-700">{description}</span>
+              </li>
+            );
+          })}
+        </ul>
       </div>
     );
   };
@@ -68,7 +82,7 @@ const FreeGemini = ({ weatherData }: { weatherData?: any }) => {
         model: 'gemini-1.5-pro',
         generationConfig: {
           temperature: 0.7,
-          maxOutputTokens: 500,
+          maxOutputTokens: 800,
           candidateCount: 1
         }
       });
@@ -78,13 +92,31 @@ const FreeGemini = ({ weatherData }: { weatherData?: any }) => {
         : 'moderate';
       
       const prompt = `
-      The weather today is ${weatherCondition} with a temperature of ${temperature}. 
-      Please provide a comprehensive list of ${
-        exerciseType === 'indoor' ? 'indoor' : 'outdoor'
-      } exercises appropriate for this weather.
-      
-      Provide a mix of exercises that can be done comfortably in the given environment.
-      Include a brief description for each exercise.
+      IMPORTANT: Provide a detailed response following this EXACT format:
+
+      EXERCISE NAME: Write a comprehensive description that includes:
+      1. What the exercise involves
+      2. Specific steps to perform the exercise
+      3. Benefits of the exercise
+      4. Any modifications or tips for performing the exercise safely
+
+      Context:
+      - Weather condition: ${weatherCondition}
+      - Temperature: ${temperature}
+      - Exercise type: ${exerciseType === 'indoor' ? 'Indoor' : 'Outdoor'}
+
+      Detailed Instructions:
+      - Provide EXACTLY 3 different exercises
+      - Each exercise MUST have a full, detailed description
+      - Descriptions should be 3-4 sentences long
+      - Tailor exercises to the current weather and indoor/outdoor preference
+      - Focus on exercises that are safe and effective given the weather conditions
+
+      STRICT FORMATTING REQUIREMENT:
+      Ensure your response uses this EXACT format:
+      Exercise Name: Full, comprehensive description explaining what the exercise is, how to do it, its benefits, and any important tips.
+      Next Exercise Name: Full, comprehensive description explaining what the exercise is, how to do it, its benefits, and any important tips.
+      Final Exercise Name: Full, comprehensive description explaining what the exercise is, how to do it, its benefits, and any important tips.
       `;
       
       console.log('Sending prompt to Gemini API:', prompt);
