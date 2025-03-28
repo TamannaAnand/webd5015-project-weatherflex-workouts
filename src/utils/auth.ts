@@ -25,7 +25,6 @@ export const authOptions: NextAuthOptions = {
       credentials: {
         email: { label: "Email", type: "text", placeholder: "Jhondoe" },
         password: { label: "Password", type: "password" },
-        username: { label: "Username", type: "text", placeholder: "Jhon Doe" },
       },
 
       async authorize(credentials) {
@@ -95,6 +94,8 @@ export const authOptions: NextAuthOptions = {
         return {
           ...token,
           id: user.id,
+          name: user.name,
+          email: user.email
         };
       }
       return token;
@@ -107,6 +108,8 @@ export const authOptions: NextAuthOptions = {
           user: {
             ...session.user,
             id: token?.id,
+            name: token?.name,
+            email: token?.email, 
           },
         };
       }
