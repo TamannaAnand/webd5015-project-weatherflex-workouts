@@ -1,8 +1,27 @@
+import { useEffect, useState } from "react";
 import formatUnixTimestamp from "@/utils/formatUnixTimestamp";
 import PremiumGemini from "../PremiumGemini";
 import FreeGemini from "../FreeGemini";
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
+  const [subscriptionStatus, setSubscriptionStatus] = useState<"Free" | "Premium">("Free");
+
+  useEffect(() => {
+    const fetchUserSession = async () => {
+      try {
+        const res = await fetch("/api/auth/session");
+        if (!res.ok) throw new Error("Failed to fetch session");
+        
+        const data = await res.json();
+        setSubscriptionStatus(data.user?.subscriptionStatus || "Free");
+      } catch (error) {
+        console.error("Error fetching session:", error);
+      }
+    };
+
+    fetchUserSession();
+  }, []);
+
   return (
     <div className="min-h-screen bg-white p-6 text-black">
       {/* Header: Location & Local Time */}
@@ -35,6 +54,7 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
             <p>🔆 UV Index: {weatherData.currentWeather.uvi}</p>
           </div>
         </div>
+
         <div className="gap-4">
           {weatherData.forecastedWeather.map((day: any, index: any) => (
             <div
@@ -73,9 +93,11 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
       {/* Workout Recommendations */}
       <div className="mx-auto mt-8 max-w-3xl rounded-xl bg-gray-100 p-6 text-center shadow-lg">
         <h3 className="mb-2 text-xl font-semibold">🔥 AI Generated Workout</h3>
-        {/* Pass the weather data to the Gemini component */}
-        <PremiumGemini weatherData={weatherData} />
-        {/* <FreeGemini weatherData={weatherData} /> */}
+        {subscriptionStatus === "Premium" ? (
+          <PremiumGemini weatherData={weatherData} />
+        ) : (
+          <FreeGemini weatherData={weatherData} />
+        )}
       </div>
     </div>
   );

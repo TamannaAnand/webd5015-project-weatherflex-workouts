@@ -3,3 +3,9 @@
 - push the change to the db
 - extend the session to contain that info
 - display admin or user depending on that info
+
+Subscriptions 
+- need to add column eto the database to store subscription status
+- default for all users is to be free - always render the free gemini component 
+- AFTER the user completes the subscription process, stripe will tell our /api/subscription endpoint, and update the subscription status to be equal to the 'nickname' 
+- Once the users subscription status is updated, redirect them back to the main app, with the premium component. 
