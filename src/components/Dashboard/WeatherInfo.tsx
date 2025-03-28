@@ -74,8 +74,8 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
       <div className="mx-auto mt-8 max-w-3xl rounded-xl bg-gray-100 p-6 text-center shadow-lg">
         <h3 className="mb-2 text-xl font-semibold">🔥 AI Generated Workout</h3>
         {/* Pass the weather data to the Gemini component */}
-        <PremiumGemini weatherData={weatherData} />
-        {/* <FreeGemini weatherData={weatherData} /> */}
+        {/* <PremiumGemini weatherData={weatherData} /> */}
+        <FreeGemini weatherData={weatherData} />
       </div>
     </div>
   );
