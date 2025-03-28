@@ -44,6 +44,11 @@ enum Role {
   Admin
 }
 
+enum Status {
+  Free
+  Premium
+}
+
 model User {
   id                    String    @id @default(cuid())
   name                  String?
@@ -51,6 +56,7 @@ model User {
   emailVerified         DateTime?
   image                 String?
   role                  Role @default(User)
+  subscriptionStatus    Status @default(Free)
   password              String?
   passwordResetToken    String?   @unique
   passwordResetTokenExp DateTime?
