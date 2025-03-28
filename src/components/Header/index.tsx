@@ -4,13 +4,14 @@ import { useTheme } from "next-themes";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import menuData from "./menuData";
+import useMenuData from "@/utils/useMenuData";
 import useSignOut from "@/utils/useSignOut";
 import { usePathname } from "next/navigation";
 
 const Header = () => {
   const { data: session } = useSession();
   const handleSignOut = useSignOut();
+  const menuItems = useMenuData();
   const pathUrl = usePathname();
   // Navbar toggle
   const [navbarOpen, setNavbarOpen] = useState(false);
@@ -147,7 +148,7 @@ const Header = () => {
                   }`}
                 >
                   <ul className="block lg:ml-8 lg:flex lg:gap-x-8 xl:ml-14 xl:gap-x-12">
-                    {menuData.map((menuItem, index) =>
+                    {menuItems.map((menuItem, index) =>
                       menuItem.path ? (
                         <li key={index} className="group relative">
                           {pathUrl !== "/" ? (
@@ -288,12 +289,6 @@ const Header = () => {
 
                 {session?.user ? (
                   <>
-                    <Link
-                      href="/weatherflex"
-                      className="dashboard-icon text-xl text-dark duration-300 ease-in-out hover:text-primary dark:text-white"
-                    >
-                      Dashboard
-                    </Link>
                     <p
                       className={`loginBtn px-7 py-3 text-base font-medium ${
                         !sticky && pathUrl === "/" ? "text-white" : "text-dark"
