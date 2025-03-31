@@ -15,10 +15,10 @@ const Hero = () => {
                 data-wow-delay=".2s"
               >
                 <h1 className="mb-6 text-3xl font-bold leading-snug text-white sm:text-4xl sm:leading-snug lg:text-5xl lg:leading-[1.2]">
-                  Welcome to the homepage of Weather Workout!
+                  Welcome to the homepage of Weatherflex Workouts!
                 </h1>
                 <p className="mx-auto mb-9 max-w-[600px] text-base font-medium text-white sm:text-lg sm:leading-[1.44]">
-                  Stay active in any weather! Weather Workout provides personalized
+                  Stay active in any weather! Weatherflex Workouts provides personalized
                   workout recommendations based on real-time weather conditions.
                 </p>
               </div>

@@ -17,8 +17,8 @@ const featuresData: Feature[] = [
         />
       </svg>
     ),
-    title: "Free and Open-Source",
-    paragraph: "Lorem Ipsum is simply dummy text of the printing and industry.",
+    title: "Free and Premium",
+    paragraph: "Choose between our Free and Premium services.",
     btn: "Learn More",
     btnLink: "/#",
   },
@@ -39,7 +39,7 @@ const featuresData: Feature[] = [
       </svg>
     ),
     title: "Modern Design",
-    paragraph: "Lorem Ipsum is simply dummy text of the printing and industry.",
+    paragraph: "Implemented modern design with a clean UI.",
     btn: "Learn More",
     btnLink: "/#",
   },
@@ -91,8 +91,8 @@ const featuresData: Feature[] = [
         />
       </svg>
     ),
-    title: "SaaS Starter Kit",
-    paragraph: "Lorem Ipsum is simply dummy text of the printing and industry.",
+    title: "AI Generated Workout",
+    paragraph: "Simplify your workout routine with AI-generated plans.",
     btn: "Learn More",
     btnLink: "/#",
   },
@@ -124,8 +124,8 @@ const featuresData: Feature[] = [
         />
       </svg>
     ),
-    title: "All Essential Integrations",
-    paragraph: "Lorem Ipsum is simply dummy text of the printing and industry.",
+    title: "Affordable Pricing",
+    paragraph: "Affordable pricing for everyone!",
     btn: "Learn More",
     btnLink: "/#",
   },

@@ -8,14 +8,14 @@ const useMenuData = () => {
 
   if (session?.user?.role === "User") {
     updatedMenu.push({
-      id: 5,
+      id: 4,
       title: "WeatherFlex App",
       path: "/weatherflex",
       newTab: false,
     });
   } else if (session?.user?.role === "Admin") {
     updatedMenu.push({
-      id: 6,
+      id: 5,
       title: "Admin Dashboard",
       path: "/adminDashboard",
       newTab: false,

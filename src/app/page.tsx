@@ -26,15 +26,8 @@ export default function Home() {
       <ScrollUp />
       <Hero />
       <Features />
-      <About />
-      <CallToAction />
       <Pricing />
-      <Testimonials />
-      <Faq />
       <Team />
-      <HomeBlogSection posts={posts} />
-      <Contact />
-      <Clients />
     </main>
   );
 }

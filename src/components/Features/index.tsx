@@ -8,8 +8,8 @@ const Features = () => {
       <div className="container">
         <SectionTitle
           subtitle="Features"
-          title="Main Features Of Play"
-          paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+          title="Main Features Of Weatherflex"
+          paragraph="Weatherflex Workouts is designed to provide you with personalized workout recommendations based on real-time weather conditions. Our platform ensures that you can stay active and fit, no matter the weather."
         />
 
         <div className="-mx-4 mt-12 flex flex-wrap lg:mt-20">
