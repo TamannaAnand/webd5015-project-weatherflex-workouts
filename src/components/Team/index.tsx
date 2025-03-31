@@ -5,36 +5,36 @@ import SingleTeam from "./SingleTeam";
 const teamData: TeamType[] = [
   {
     id: 1,
-    name: "Adveen Desuza",
-    designation: "UI Designer",
-    image: "/images/team/team-01.png",
+    name: "Tamanna Anand",
+    designation: "Full-Stack Developer",
+    image: "/images/team/team-01.jpg",
     facebookLink: "/#",
     twitterLink: "/#",
     instagramLink: "/#",
   },
   {
     id: 2,
-    name: "Jezmin uniya",
-    designation: "Product Designer",
-    image: "/images/team/team-02.png",
+    name: "Aman Arora",
+    designation: "Full-Stack Developer",
+    image: "/images/team/Aman.jpg",
     facebookLink: "/#",
     twitterLink: "/#",
     instagramLink: "/#",
   },
   {
     id: 3,
-    name: "Andrieo Gloree",
-    designation: "App Developer",
-    image: "/images/team/team-03.png",
+    name: "Yash Bhakta",
+    designation: "Full-Stack Developer",
+    image: "/images/team/YashBhakta-headshot.png",
     facebookLink: "/#",
     twitterLink: "/#",
     instagramLink: "/#",
   },
   {
     id: 4,
-    name: "Jackie Sanders",
-    designation: "Content Writer",
-    image: "/images/team/team-04.png",
+    name: "Mamadou Coulibaly",
+    designation: "Full-Stack Developer",
+    image: "/images/team/team-02.jpg",
     facebookLink: "/#",
     twitterLink: "/#",
     instagramLink: "/#",
@@ -52,7 +52,7 @@ const Team = () => {
           <SectionTitle
             subtitle="Our Team"
             title="Meet Our Team"
-            paragraph="There are many variations of passages of Lorem Ipsum available but the majority have suffered alteration in some form."
+            paragraph=""
             width="640px"
             center
           />
