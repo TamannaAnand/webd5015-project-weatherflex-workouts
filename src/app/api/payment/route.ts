@@ -16,8 +16,8 @@ export async function POST(request: NextRequest) {
       },
     ],
     mode: "subscription",
-    success_url: process.env.SITE_URL!,
-    cancel_url: process.env.SITE_URL!,
+    success_url: `${process.env.NEXT_PUBLIC_SITE_URL}/profile/success`,
+    cancel_url: `${process.env.NEXT_PUBLIC_SITE_URL}/profile`,
   });
 
   return NextResponse.json(session.url);

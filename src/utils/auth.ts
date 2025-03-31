@@ -8,6 +8,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import { PrismaClient } from "@prisma/client";
 import { prisma } from "./prismaDB";
 import type { Adapter } from "next-auth/adapters";
+import { sub } from "date-fns";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -96,7 +97,8 @@ export const authOptions: NextAuthOptions = {
           id: user.id,
           role:user.role,
           name: user.name,
-          email: user.email
+          email: user.email,
+          subscriptionStatus: user.subscriptionStatus, // Add subscription status to token
         };
       }
       return token;
@@ -112,6 +114,7 @@ export const authOptions: NextAuthOptions = {
             role:token?.role,
             name: token?.name,
             email: token?.email, 
+            subscriptionStatus: token?.subscriptionStatus, // Add subscription status to session
           },
         };
       }
