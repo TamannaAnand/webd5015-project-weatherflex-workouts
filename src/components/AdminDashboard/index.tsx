@@ -58,7 +58,7 @@ const AdminDashboard = () => {
               Email
             </th>
             <th className="border border-gray-300 px-4 py-2 text-left">
-              Created On
+              Subscription Status
             </th>
             <th className="border border-gray-300 px-4 py-2 text-left">
               Actions
@@ -72,7 +72,7 @@ const AdminDashboard = () => {
               <td className="border border-gray-300 px-4 py-2">{user.name}</td>
               <td className="border border-gray-300 px-4 py-2">{user.email}</td>
               <td className="border border-gray-300 px-4 py-2">
-                N/A
+                {user.subscriptionStatus}
               </td>
               <td className="space-x-1 border border-gray-300 px-4 py-2 text-center">
                 <button

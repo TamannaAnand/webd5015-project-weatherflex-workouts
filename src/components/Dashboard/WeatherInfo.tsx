@@ -2,25 +2,13 @@ import { useEffect, useState } from "react";
 import formatUnixTimestamp from "@/utils/formatUnixTimestamp";
 import PremiumGemini from "../PremiumGemini";
 import FreeGemini from "../FreeGemini";
+import { useSession } from "next-auth/react";
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
-  const [subscriptionStatus, setSubscriptionStatus] = useState<"Free" | "Premium">("Free");
+  const session = useSession()
+  const subscriptionStatus = session?.data?.user?.subscriptionStatus;
+  
 
-  useEffect(() => {
-    const fetchUserSession = async () => {
-      try {
-        const res = await fetch("/api/auth/session");
-        if (!res.ok) throw new Error("Failed to fetch session");
-        
-        const data = await res.json();
-        setSubscriptionStatus(data.user?.subscriptionStatus || "Free");
-      } catch (error) {
-        console.error("Error fetching session:", error);
-      }
-    };
-
-    fetchUserSession();
-  }, []);
 
   return (
     <div className="min-h-screen bg-white p-6 text-black">
