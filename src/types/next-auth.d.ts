@@ -11,6 +11,7 @@ declare module "next-auth" {
     role: string;
     name?: string | null;
     email?: string | null;
+    subscriptionStatus?: string; // Add subscription status to user
   }
 }
 
@@ -21,6 +22,7 @@ declare module 'next-auth/jwt' {
     role: string;
     name?: string;
     email?: string;
+    subscriptionStatus?: string; // Add subscription status to JWT
   }
 
   // Define a type for the credentials

@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import formatUnixTimestamp from "@/utils/formatUnixTimestamp";
 import PremiumGemini from "../PremiumGemini";
 import FreeGemini from "../FreeGemini";
+import { useSession } from "next-auth/react";
 
 // Weather theme configuration with more realistic colors
 const weatherThemes = {
@@ -82,24 +83,13 @@ const weatherThemes = {
 };
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
-  const [subscriptionStatus, setSubscriptionStatus] = useState<"Free" | "Premium">("Free");
+
   const [currentTheme, setCurrentTheme] = useState(weatherThemes.default);
 
-  useEffect(() => {
-    const fetchUserSession = async () => {
-      try {
-        const res = await fetch("/api/auth/session");
-        if (!res.ok) throw new Error("Failed to fetch session");
-        
-        const data = await res.json();
-        setSubscriptionStatus(data.user?.subscriptionStatus || "Free");
-      } catch (error) {
-        console.error("Error fetching session:", error);
-      }
-    };
+  const session = useSession()
+  const subscriptionStatus = session?.data?.user?.subscriptionStatus;
+  
 
-    fetchUserSession();
-  }, []);
 
   useEffect(() => {
     // Determine theme based on current weather condition
