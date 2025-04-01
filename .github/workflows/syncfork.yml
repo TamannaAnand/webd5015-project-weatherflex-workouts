@@ -1,0 +1,74 @@
+name: PR Merge & Sync Fork
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  run-tests:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+          cache: 'pnpm'
+
+      - name: Install pnpm
+        run: npm install -g pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Build Next.js app
+        run: pnpm run build
+
+      - name: Run tests
+        run: pnpm test
+
+  push-to-fork:
+    needs: run-tests
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout upstream repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: NSCC-ITC-Winter2025-WEBD5015-700-MCa/webd5015-project-weatherflex-workouts
+          fetch-depth: 0
+
+      - name: Push changes to fork
+        run: |
+          git push https://github.com/TamannaAnand/webd5015-project-weatherflex-workouts.git main
+
+  sync-fork:
+    needs: push-to-fork
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GH_PAT }}
+          repository: TamannaAnand/webd5015-project-weatherflex-workouts
+          fetch-depth: 0
+
+      - name: Add upstream and fetch changes
+        run: |
+          git remote add upstream https://github.com/NSCC-ITC-Winter2025-WEBD5015-700-MCa/webd5015-project-weatherflex-workouts.git
+          git fetch upstream
+
+      - name: Merge upstream main into fork
+        run: |
+          git checkout main
+          git merge upstream/main --no-edit
+
+      - name: Push synced changes to fork
+        run: |
+          git push origin main
