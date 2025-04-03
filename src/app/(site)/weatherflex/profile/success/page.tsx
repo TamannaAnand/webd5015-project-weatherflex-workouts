@@ -1,10 +1,12 @@
 'use client';
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import useSignOut from "@/utils/useSignOut";
 
 const SuccessPage = () => {
   const router = useRouter();
   const [updateStatus, setUpdateStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const signOut = useSignOut();
 
   // Update the subscription status in the database when the page loads
   useEffect(() => {
@@ -71,10 +73,10 @@ const SuccessPage = () => {
       )}
       
       <button 
-        onClick={handleRedirect} 
-        className="mt-4 px-6 py-3 bg-blue-600 text-white text-lg font-medium rounded-lg shadow-md hover:bg-blue-700 transition duration-300"
+        onClick={signOut} 
+        className="mt-4 px-6 py-3 bg-red-600 text-white text-lg font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300"
       >
-        Back to Dashboard
+        Please sign out to refresh your profile
       </button>
     </div>
   );
