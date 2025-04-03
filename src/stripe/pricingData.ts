@@ -8,8 +8,8 @@ export const pricingData: Price[] = [
   },
 
   {
-    id: "price_1R8lxyFKB8VC7JUeDb0Mlq84",
-    unit_amount: 2 * 100,
+    id: "price_1R9uLNFKB8VC7JUesluQLACp",
+    unit_amount: 19.99 * 100,
     nickname: "Premium",
     offers: [
       "All Basic Plan features",
