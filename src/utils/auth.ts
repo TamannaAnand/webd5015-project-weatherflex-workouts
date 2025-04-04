@@ -5,10 +5,10 @@ import GitHubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import { PrismaClient } from "@prisma/client";
 import { prisma } from "./prismaDB";
 import type { Adapter } from "next-auth/adapters";
 import { sub } from "date-fns";
+import NextAuth from "next-auth";
 
 export const authOptions: NextAuthOptions = {
   pages: {
@@ -87,19 +87,17 @@ export const authOptions: NextAuthOptions = {
   ],
 
   callbacks: {
-    jwt: async (payload: any) => {
-      const { token } = payload;
-      const user = payload.user;
+    jwt: async ({ token, user, trigger, session }) => {
+      if (trigger === "update" && session?.user?.subscriptionStatus) {
+        token.subscriptionStatus = session.user.subscriptionStatus;
+      }
 
       if (user) {
-        return {
-          ...token,
-          id: user.id,
-          role:user.role,
-          name: user.name,
-          email: user.email,
-          subscriptionStatus: user.subscriptionStatus, // Add subscription status to token
-        };
+        token.id = user.id;
+        token.role = user.role;
+        token.name = user.name as string | undefined;
+        token.email = user.email as string | undefined;
+        token.subscriptionStatus = user.subscriptionStatus; // Add subscription status to token
       }
       return token;
     },
@@ -111,9 +109,9 @@ export const authOptions: NextAuthOptions = {
           user: {
             ...session.user,
             id: token?.id,
-            role:token?.role,
+            role: token?.role,
             name: token?.name,
-            email: token?.email, 
+            email: token?.email,
             subscriptionStatus: token?.subscriptionStatus, // Add subscription status to session
           },
         };
@@ -124,3 +122,5 @@ export const authOptions: NextAuthOptions = {
 
   // debug: process.env.NODE_ENV === "developement",
 };
+
+export const auth = NextAuth(authOptions);

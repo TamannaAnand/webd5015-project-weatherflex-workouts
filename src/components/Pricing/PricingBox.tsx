@@ -1,16 +1,31 @@
+"use client"
+
 import axios from "axios";
 import React from "react";
 import OfferList from "./OfferList";
 import { Price } from "@/types/price";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 
 const PricingBox = ({ product }: { product: Price }) => {
+
+  const session = useSession()
+  const router = useRouter()
+
+
   // POST request
   const handleSubscription = async (e: any) => {
     e.preventDefault();
+
+    if (!session.data?.user) {
+      router.push("/signin")
+    }
+
     const { data } = await axios.post(
       "/api/payment",
       {
         priceId: product.id,
+        userId: session.data?.user.id
       },
       {
         headers: {

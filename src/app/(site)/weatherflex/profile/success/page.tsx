@@ -1,85 +1,57 @@
-'use client';
-import { useRouter } from "next/navigation";
+"use client";
 import { useEffect, useState } from "react";
-import useSignOut from "@/utils/useSignOut";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-const SuccessPage = () => {
+
+export default function SuccessPage() {
   const router = useRouter();
-  const [updateStatus, setUpdateStatus] = useState<'loading' | 'success' | 'error'>('loading');
-  const signOut = useSignOut();
+  const [isLoading, setIsLoading] = useState(true);
+  const { data: session, update } = useSession();
 
-  // Update the subscription status in the database when the page loads
+
   useEffect(() => {
-    const updateSubscriptionStatus = async () => {
+    async function updateSubscription() {
       try {
-        // First, get the user session to obtain email/id
-        const sessionRes = await fetch("/api/auth/session");
-        if (!sessionRes.ok) throw new Error("Failed to fetch session");
-        
-        const sessionData = await sessionRes.json();
-        const userEmail = sessionData.user?.email;
-        
-        if (!userEmail) {
-          throw new Error("User email not found in session");
+        if (session?.user && session.user?.subscriptionStatus !== "Premium") {
+          // update
+          await update({
+            ...session,
+            user: {
+              ...session.user,
+              subscriptionStatus: "Premium",
+            },
+          });
+
+          // After updating the session, redirect to profile
+          router.push("/weatherflex/profile");
         }
-
-        // Then update the subscription status
-        const updateRes = await fetch("/api/subscription", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            email: userEmail,
-            subscriptionStatus: "Premium" // Set to Premium since payment was successful
-          }),
-        });
-
-        if (!updateRes.ok) {
-          throw new Error("Failed to update subscription status");
-        }
-
-        setUpdateStatus('success');
       } catch (error) {
         console.error("Error updating subscription:", error);
-        setUpdateStatus('error');
+      } finally {
+        setIsLoading(false);
       }
-    };
+    }
 
-    updateSubscriptionStatus();
-  }, []);
-
-  const handleRedirect = () => {
-    router.push("/weatherflex");
-  };
+    updateSubscription();
+  }, [session, router]);
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-2xl font-bold">Success!</h1>
-      
-      {updateStatus === 'loading' && (
-        <p className="mt-4 text-lg">Updating your subscription status...</p>
+    <div className="flex min-h-screen items-center justify-center">
+      {isLoading ? (
+        <div>
+          <h1 className="text-2xl font-bold">
+            Processing your subscription...
+          </h1>
+          <p>Please wait while we update your account.</p>
+        </div>
+      ) : (
+        <div>
+          <h1 className="text-2xl font-bold">Subscription activated!</h1>
+          <p>Redirecting to your profile...</p>
+        </div>
       )}
-      
-      {updateStatus === 'success' && (
-        <p className="mt-4 text-lg">Your subscription has been successfully activated!</p>
-      )}
-      
-      {updateStatus === 'error' && (
-        <p className="mt-4 text-lg text-red-500">
-          Your payment was successful, but we could not update your profile. 
-          Please contact support if premium features are not available.
-        </p>
-      )}
-      
-      <button 
-        onClick={signOut} 
-        className="mt-4 px-6 py-3 bg-red-600 text-white text-lg font-medium rounded-lg shadow-md hover:bg-red-700 transition duration-300"
-      >
-        Please sign out to refresh your profile
-      </button>
+
     </div>
   );
-};
-
-export default SuccessPage;
+}
