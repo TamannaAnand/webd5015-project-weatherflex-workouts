@@ -7,81 +7,71 @@ import WorkoutTracker from "./WorkoutTracker";
 
 // Weather theme configuration with more realistic colors
 const weatherThemes = {
-  // Sunny theme - warm yellows and oranges
   sunny: {
-    background: "bg-yellow-50",
-    card: "bg-yellow-100",
-    accent: "text-orange-500",
-    shadow: "shadow-yellow-200",
-    header: "text-yellow-800",
+    background: "bg-yellow-300",
+    card: "bg-orange-400",
+    accent: "text-red-700",
+    shadow: "shadow-orange-500",
+    header: "text-yellow-900",
   },
-  // Clear theme (clear night) - deep blues
   clear: {
-    background: "bg-sky-50",
-    card: "bg-sky-100",
-    accent: "text-sky-600",
-    shadow: "shadow-sky-200",
-    header: "text-sky-900",
+    background: "bg-sky-400",
+    card: "bg-blue-500",
+    accent: "text-blue-900",
+    shadow: "shadow-sky-600",
+    header: "text-sky-950",
   },
-  // Cloudy theme - soft grays
   cloudy: {
-    background: "bg-gray-100",
-    card: "bg-gray-200",
-    accent: "text-gray-700",
-    shadow: "shadow-gray-300",
-    header: "text-gray-800",
+    background: "bg-indigo-300",
+    card: "bg-indigo-400",
+    accent: "text-indigo-800",
+    shadow: "shadow-indigo-500",
+    header: "text-indigo-950",
   },
-
-  // Rainy theme - blues
   rainy: {
-    background: "bg-blue-100",
-    card: "bg-blue-200",
-    accent: "text-blue-700",
-    shadow: "shadow-blue-300",
-    header: "text-blue-900",
+    background: "bg-blue-500",
+    card: "bg-blue-600",
+    accent: "text-blue-100",
+    shadow: "shadow-blue-700",
+    header: "text-blue-50",
   },
-  // Snowy theme - cool whites and light blues
   snowy: {
-    background: "bg-slate-50",
-    card: "bg-white",
-    accent: "text-slate-600",
-    shadow: "shadow-slate-200",
-    header: "text-slate-800",
+    background: "bg-cyan-300",
+    card: "bg-cyan-400",
+    accent: "text-cyan-900",
+    shadow: "shadow-cyan-500",
+    header: "text-cyan-950",
   },
-  // Stormy theme - dark purples and grays
   stormy: {
-    background: "bg-slate-200",
-    card: "bg-slate-300",
-    accent: "text-indigo-700",
-    shadow: "shadow-slate-400",
-    header: "text-slate-900",
+    background: "bg-purple-700",
+    card: "bg-purple-800",
+    accent: "text-purple-200",
+    shadow: "shadow-purple-900",
+    header: "text-purple-100",
   },
-
-  // Foggy theme - misty grays
   foggy: {
-    background: "bg-neutral-100",
-    card: "bg-neutral-200",
-    accent: "text-neutral-600",
-    shadow: "shadow-neutral-300",
-    header: "text-neutral-800",
+    background: "bg-violet-300",
+    card: "bg-violet-400",
+    accent: "text-violet-900",
+    shadow: "shadow-violet-500",
+    header: "text-violet-950",
   },
-  // Mild theme - gentle greens
   mild: {
-    background: "bg-emerald-50",
-    card: "bg-emerald-100",
-    accent: "text-emerald-600",
-    shadow: "shadow-emerald-200",
-    header: "text-emerald-800",
+    background: "bg-emerald-300",
+    card: "bg-emerald-400",
+    accent: "text-emerald-900",
+    shadow: "shadow-emerald-600",
+    header: "text-emerald-950",
   },
-  // Default theme (fallback)
   default: {
-    background: "bg-white",
-    card: "bg-gray-100",
-    accent: "text-blue-600",
-    shadow: "shadow-lg",
-    header: "text-black",
+    background: "bg-rose-300",
+    card: "bg-pink-400",
+    accent: "text-rose-900",
+    shadow: "shadow-pink-500",
+    header: "text-rose-950",
   },
 };
+
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
   const [currentTheme, setCurrentTheme] = useState(weatherThemes.default);
@@ -136,7 +126,7 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
 
   return (
     <div
-      className={`min-h-screen p-6 text-black transition-colors duration-500 ${currentTheme.background}`}
+      className={`min-h-screen p-6 text-black transition-colors duration-500 ${currentTheme.background} rounded-lg`}
     >
       {/* Header: Location & Local Time */}
       <div className="mb-6 text-center">
@@ -225,7 +215,7 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
         </div>
 
         <div className="flex-2">
-          <WorkoutTracker weatherData={weatherData} />
+          <WorkoutTracker weatherData={weatherData} weatherThemes={weatherThemes} />
         </div>
       </div>
     </div>

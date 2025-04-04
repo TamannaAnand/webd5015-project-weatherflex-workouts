@@ -34,11 +34,16 @@ const getWeatherCategoryAndId = (condition: string) => {
   return matchedKey ? weatherCategoryMap[matchedKey] : { category: "default", id: null };
 };
 
-const WorkoutTracker = ({ weatherData }: { weatherData: any }) => {
+const WorkoutTracker = ({ weatherData, weatherThemes }: { weatherData: any, weatherThemes : any }) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const { data: session } = useSession();
+
+  // Get theme based on weather condition
+  const weatherCondition = weatherData?.currentWeather?.condition?.toLowerCase() || "";
+  const { category } = getWeatherCategoryAndId(weatherCondition);
+  const theme = weatherThemes[category] || weatherThemes.default;
 
   useEffect(() => {
     if (isRunning) {
@@ -62,7 +67,6 @@ const WorkoutTracker = ({ weatherData }: { weatherData: any }) => {
       return;
     }
 
-    const weatherCondition = weatherData?.currentWeather?.condition?.toLowerCase();
     const { id: weatherId } = getWeatherCategoryAndId(weatherCondition);
 
     if (!weatherId) {
@@ -94,14 +98,14 @@ const WorkoutTracker = ({ weatherData }: { weatherData: any }) => {
   };
 
   return (
-    <div className="p-6 bg-white shadow-lg rounded-xl dark:bg-gray-800 w-full max-w-lg mx-auto">
-      <h1 className="text-2xl font-semibold text-gray-900 dark:text-white text-center mb-4">
+    <div className={`p-6 rounded-xl w-full max-w-lg mx-auto transition-all duration-300 ${theme.card} ${theme.shadow}`}>
+      <h1 className={`text-2xl font-semibold text-center mb-4 ${theme.header}`}>
         Workout Tracker
       </h1>
 
       <div className="flex flex-col items-center space-y-4">
         {/* Timer Display */}
-        <div className="flex items-center justify-center w-full py-4 bg-gray-100 dark:bg-gray-700 rounded-lg text-2xl font-bold text-gray-900 dark:text-white">
+        <div className={`flex items-center justify-center w-full py-4 rounded-lg text-2xl font-bold ${theme.background} ${theme.header}`}>
           ⏱ {Math.floor(time / 60)}:{String(time % 60).padStart(2, "0")} min
         </div>
 
@@ -140,5 +144,6 @@ const WorkoutTracker = ({ weatherData }: { weatherData: any }) => {
     </div>
   );
 };
+
 
 export default WorkoutTracker;
