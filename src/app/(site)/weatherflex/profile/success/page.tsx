@@ -3,10 +3,12 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 
+
 export default function SuccessPage() {
   const router = useRouter();
   const [isLoading, setIsLoading] = useState(true);
   const { data: session, update } = useSession();
+
 
   useEffect(() => {
     async function updateSubscription() {
@@ -49,6 +51,7 @@ export default function SuccessPage() {
           <p>Redirecting to your profile...</p>
         </div>
       )}
+
     </div>
   );
 }
