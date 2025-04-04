@@ -3,6 +3,7 @@ import formatUnixTimestamp from "@/utils/formatUnixTimestamp";
 import PremiumGemini from "../PremiumGemini";
 import FreeGemini from "../FreeGemini";
 import { useSession } from "next-auth/react";
+import WorkoutTracker from "./WorkoutTracker";
 
 // Weather theme configuration with more realistic colors
 const weatherThemes = {
@@ -12,7 +13,7 @@ const weatherThemes = {
     card: "bg-yellow-100",
     accent: "text-orange-500",
     shadow: "shadow-yellow-200",
-    header: "text-yellow-800"
+    header: "text-yellow-800",
   },
   // Clear theme (clear night) - deep blues
   clear: {
@@ -20,7 +21,7 @@ const weatherThemes = {
     card: "bg-sky-100",
     accent: "text-sky-600",
     shadow: "shadow-sky-200",
-    header: "text-sky-900"
+    header: "text-sky-900",
   },
   // Cloudy theme - soft grays
   cloudy: {
@@ -28,7 +29,7 @@ const weatherThemes = {
     card: "bg-gray-200",
     accent: "text-gray-700",
     shadow: "shadow-gray-300",
-    header: "text-gray-800"
+    header: "text-gray-800",
   },
 
   // Rainy theme - blues
@@ -37,7 +38,7 @@ const weatherThemes = {
     card: "bg-blue-200",
     accent: "text-blue-700",
     shadow: "shadow-blue-300",
-    header: "text-blue-900"
+    header: "text-blue-900",
   },
   // Snowy theme - cool whites and light blues
   snowy: {
@@ -45,7 +46,7 @@ const weatherThemes = {
     card: "bg-white",
     accent: "text-slate-600",
     shadow: "shadow-slate-200",
-    header: "text-slate-800"
+    header: "text-slate-800",
   },
   // Stormy theme - dark purples and grays
   stormy: {
@@ -53,7 +54,7 @@ const weatherThemes = {
     card: "bg-slate-300",
     accent: "text-indigo-700",
     shadow: "shadow-slate-400",
-    header: "text-slate-900"
+    header: "text-slate-900",
   },
 
   // Foggy theme - misty grays
@@ -62,7 +63,7 @@ const weatherThemes = {
     card: "bg-neutral-200",
     accent: "text-neutral-600",
     shadow: "shadow-neutral-300",
-    header: "text-neutral-800"
+    header: "text-neutral-800",
   },
   // Mild theme - gentle greens
   mild: {
@@ -70,7 +71,7 @@ const weatherThemes = {
     card: "bg-emerald-100",
     accent: "text-emerald-600",
     shadow: "shadow-emerald-200",
-    header: "text-emerald-800"
+    header: "text-emerald-800",
   },
   // Default theme (fallback)
   default: {
@@ -78,18 +79,15 @@ const weatherThemes = {
     card: "bg-gray-100",
     accent: "text-blue-600",
     shadow: "shadow-lg",
-    header: "text-black"
-  }
+    header: "text-black",
+  },
 };
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
-
   const [currentTheme, setCurrentTheme] = useState(weatherThemes.default);
 
-  const session = useSession()
+  const session = useSession();
   const subscriptionStatus = session?.data?.user?.subscriptionStatus;
-  
-
 
   useEffect(() => {
     // Determine theme based on current weather condition
@@ -97,30 +95,54 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
 
     const condition = weatherData.currentWeather.condition.toLowerCase();
     const isDaytime = weatherData.currentWeather.icon?.includes("d") || false;
-    
+
     if (condition.includes("clear") || condition.includes("sun")) {
       // Differentiate between sunny day and clear night
       setCurrentTheme(isDaytime ? weatherThemes.sunny : weatherThemes.clear);
     } else if (condition.includes("cloud") || condition.includes("overcast")) {
       setCurrentTheme(weatherThemes.cloudy);
-    } else if (condition.includes("rain") || condition.includes("drizzle") || condition.includes("shower")) {
+    } else if (
+      condition.includes("rain") ||
+      condition.includes("drizzle") ||
+      condition.includes("shower")
+    ) {
       setCurrentTheme(weatherThemes.rainy);
-    } else if (condition.includes("snow") || condition.includes("sleet") || condition.includes("blizzard")) {
+    } else if (
+      condition.includes("snow") ||
+      condition.includes("sleet") ||
+      condition.includes("blizzard")
+    ) {
       setCurrentTheme(weatherThemes.snowy);
-    } else if (condition.includes("thunder") || condition.includes("storm") || condition.includes("lightning")) {
+    } else if (
+      condition.includes("thunder") ||
+      condition.includes("storm") ||
+      condition.includes("lightning")
+    ) {
       setCurrentTheme(weatherThemes.stormy);
-    } else if (condition.includes("mist") || condition.includes("fog") || condition.includes("haze")) {
+    } else if (
+      condition.includes("mist") ||
+      condition.includes("fog") ||
+      condition.includes("haze")
+    ) {
       setCurrentTheme(weatherThemes.foggy);
-    } else if (condition.includes("mild") || condition.includes("fair") || condition.includes("pleasant")) {
+    } else if (
+      condition.includes("mild") ||
+      condition.includes("fair") ||
+      condition.includes("pleasant")
+    ) {
       setCurrentTheme(weatherThemes.mild);
     }
   }, [weatherData]);
 
   return (
-    <div className={`min-h-screen p-6 text-black transition-colors duration-500 ${currentTheme.background}`}>
+    <div
+      className={`min-h-screen p-6 text-black transition-colors duration-500 ${currentTheme.background}`}
+    >
       {/* Header: Location & Local Time */}
       <div className="mb-6 text-center">
-        <h2 className={`text-2xl font-semibold ${currentTheme.header}`}>📍 Halifax, Nova Scotia</h2>
+        <h2 className={`text-2xl font-semibold ${currentTheme.header}`}>
+          📍 Halifax, Nova Scotia
+        </h2>
         <p className="text-gray-500">
           🕒 {formatUnixTimestamp(weatherData.currentWeather.dateTime)}
         </p>
@@ -129,7 +151,9 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
       {/* Weather Section */}
       <div className="flex flex-col gap-6 md:flex-row">
         {/* Current Weather Card */}
-        <div className={`flex-1 rounded-xl p-6 text-center ${currentTheme.card} ${currentTheme.shadow}`}>
+        <div
+          className={`flex-1 rounded-xl p-6 text-center ${currentTheme.card} ${currentTheme.shadow}`}
+        >
           <img
             src={weatherData.currentWeather.icon}
             alt="Weather Icon"
@@ -185,14 +209,24 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
       </div>
 
       {/* Workout Recommendations */}
-      <div className={`mx-auto mt-8 max-w-3xl rounded-xl p-6 text-center ${currentTheme.card} ${currentTheme.shadow}`}>
-        <h3 className={`mb-2 text-xl font-semibold ${currentTheme.header}`}>🔥 AI Generated Workout</h3>
+      <div className="mt-8 flex flex-col items-start justify-center gap-6 md:flex-row">
+        <div
+          className={`max-w-3xl flex-1 rounded-xl p-6 text-center ${currentTheme.card} ${currentTheme.shadow}`}
+        >
+          <h3 className={`mb-2 text-xl font-semibold ${currentTheme.header}`}>
+            🔥 AI Generated Workout
+          </h3>
 
-        {subscriptionStatus === "Premium" ? (
-          <PremiumGemini weatherData={weatherData} />
-        ) : (
-          <FreeGemini weatherData={weatherData} />
-        )}
+          {subscriptionStatus === "Premium" ? (
+            <PremiumGemini weatherData={weatherData} />
+          ) : (
+            <FreeGemini weatherData={weatherData} />
+          )}
+        </div>
+
+        <div className="flex-2">
+          <WorkoutTracker weatherData={weatherData} />
+        </div>
       </div>
     </div>
   );
