@@ -1,14 +1,44 @@
-'use client'
+'use client';
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { useSession } from "next-auth/react";
+
+const weatherCategoryMap: { [key: string]: { category: string; id: number } } = {
+  sunny: { category: "sunny", id: 1 },
+  clear: { category: "clear", id: 2 },
+  cloud: { category: "cloudy", id: 3 },
+  overcast: { category: "cloudy", id: 3 },
+  rain: { category: "rainy", id: 4 },
+  drizzle: { category: "rainy", id: 4 },
+  shower: { category: "rainy", id: 4 },
+  snow: { category: "snowy", id: 5 },
+  sleet: { category: "snowy", id: 5 },
+  blizzard: { category: "snowy", id: 5 },
+  thunder: { category: "stormy", id: 6 },
+  storm: { category: "stormy", id: 6 },
+  lightning: { category: "stormy", id: 6 },
+  mist: { category: "foggy", id: 7 },
+  fog: { category: "foggy", id: 7 },
+  haze: { category: "foggy", id: 7 },
+  mild: { category: "mild", id: 8 },
+  fair: { category: "mild", id: 8 },
+  pleasant: { category: "mild", id: 8 },
+};
+
+// Function to map weather condition to category and ID
+const getWeatherCategoryAndId = (condition: string) => {
+  const matchedKey = Object.keys(weatherCategoryMap).find((key) =>
+    condition.includes(key)
+  );
+
+  return matchedKey ? weatherCategoryMap[matchedKey] : { category: "default", id: null };
+};
 
 const WorkoutTracker = ({ weatherData }: { weatherData: any }) => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
   const [timer, setTimer] = useState<NodeJS.Timeout | null>(null);
   const { data: session } = useSession();
-  const subscriptionStatus = session?.user?.subscriptionStatus;
 
   useEffect(() => {
     if (isRunning) {
@@ -26,10 +56,41 @@ const WorkoutTracker = ({ weatherData }: { weatherData: any }) => {
     };
   }, [isRunning]);
 
-  const handleCompleteWorkout = () => {
-    toast.success(`🔥 Great job completing your ${weatherData?.currentWeather?.condition} workout!`);
-    setTime(0);
-    setIsRunning(false);
+  const handleCompleteWorkout = async () => {
+    if (!session?.user?.id) {
+      toast.error("You must be logged in to track workouts.");
+      return;
+    }
+
+    const weatherCondition = weatherData?.currentWeather?.condition?.toLowerCase();
+    const { id: weatherId } = getWeatherCategoryAndId(weatherCondition);
+
+    if (!weatherId) {
+      toast.error("Unknown weather condition. Workout not logged.");
+      return;
+    }
+
+    const workoutData = {
+      userId: session.user.id,
+      duration: time,
+      weatherId,
+    };
+
+    try {
+      const response = await fetch("/api/workout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(workoutData),
+      });
+
+      if (!response.ok) throw new Error("Failed to log workout");
+
+      toast.success(`🔥 Great job completing your ${weatherCondition} workout!`);
+      setTime(0);
+      setIsRunning(false);
+    } catch (error) {
+      toast.error("Error logging workout. Please try again.");
+    }
   };
 
   return (
