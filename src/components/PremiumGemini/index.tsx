@@ -20,19 +20,19 @@ const PremiumGemini = ({ weatherData }: { weatherData?: any }) => {
     const condition = weatherData.currentWeather.condition.toLowerCase();
     
     if (condition.includes('rain') || condition.includes('drizzle')) {
-      return 'rainy';
+      return 'Rainy';
     } else if (condition.includes('snow')) {
-      return 'snowy';
+      return 'Snowy';
     } else if (condition.includes('cloud')) {
-      return 'cloudy';
+      return 'Cloudy';
     } else if (condition.includes('clear') || condition.includes('sun')) {
-      return 'sunny';
+      return 'Sunny';
     } else if (condition.includes('fog') || condition.includes('mist')) {
-      return 'foggy';
+      return 'Foggy';
     } else if (condition.includes('storm') || condition.includes('thunder')) {
-      return 'stormy';
+      return 'Stormy';
     } else {
-      return 'mild'; // default fallback
+      return 'Mild'; // default fallback
     }
   };
   
