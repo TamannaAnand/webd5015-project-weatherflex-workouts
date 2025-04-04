@@ -1,3 +1,5 @@
+//Edit User Page
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,7 +7,9 @@ import { useRouter } from "next/navigation";
 
 export default function UpdateUserPage({ params }: { params: Promise<{ id: string }> }) {
   const router = useRouter();
-  const [user, setUser] = useState({ name: "", email: "" });
+  // const [user, setUser] = useState({ name: "", email: "" });
+  //uncomment this one for subscriptionStatus
+  const [user, setUser] = useState({ name: "", email: "", subscriptionStatus: "Free" }); 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState(false);
@@ -33,7 +37,9 @@ export default function UpdateUserPage({ params }: { params: Promise<{ id: strin
         if (!res.ok) throw new Error("Failed to fetch user details");
 
         const data = await res.json();
-        setUser({ name: data.name, email: data.email });
+        // setUser({ name: data.name, email: data.email });
+        //uncomment this one for subscriptionStatus
+        setUser({ name: data.name, email: data.email, subscriptionStatus: data.subscriptionStatus || "Free" });
       } catch (err: any) {
         setError(err.message);
       }
@@ -94,6 +100,18 @@ export default function UpdateUserPage({ params }: { params: Promise<{ id: strin
             className="mt-1 p-2 border rounded w-full"
             required
           />
+        </div>
+        {/* uncomment this one for subscriptionStatus */}
+        <div>
+          <label className="block text-sm font-medium">Subscription Status</label>
+          <select
+            value={user.subscriptionStatus}
+            onChange={(e) => setUser({ ...user, subscriptionStatus: e.target.value })}
+            className="mt-1 p-2 border rounded w-full"
+          >
+            <option value="Free">Free</option>
+            <option value="Premium">Premium</option>
+          </select>
         </div>
 
         <button
