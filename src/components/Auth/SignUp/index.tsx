@@ -4,9 +4,9 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import SocialSignIn from "../SocialSignIn";
-import SwitchOption from "../SwitchOption";
+// import SwitchOption from "../SwitchOption";
 import { useState } from "react";
-import MagicLink from "../MagicLink";
+// import MagicLink from "../MagicLink";
 import Loader from "@/components/Common/Loader";
 
 const SignUp = () => {
@@ -78,12 +78,12 @@ const SignUp = () => {
                 </span>
               </span>
 
-              <SwitchOption
+              {/* <SwitchOption
                 isPassword={isPassword}
                 setIsPassword={setIsPassword}
-              />
+              /> */}
 
-              {isPassword ? (
+              {/* {isPassword ? ( */}
                 <form onSubmit={handleSubmit}>
                   <div className="mb-[22px]">
                     <input
@@ -121,9 +121,9 @@ const SignUp = () => {
                     </button>
                   </div>
                 </form>
-              ) : (
+              {/* ) : (
                 <MagicLink />
-              )}
+              )} */}
 
               <p className="text-body-secondary mb-4 text-base">
                 By creating an account you are agree with our{" "}
@@ -146,7 +146,7 @@ const SignUp = () => {
                 </Link>
               </p>
 
-              <div>
+              {/* <div>
                 <span className="absolute right-1 top-1">
                   <svg
                     width="40"
@@ -363,7 +363,7 @@ const SignUp = () => {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
