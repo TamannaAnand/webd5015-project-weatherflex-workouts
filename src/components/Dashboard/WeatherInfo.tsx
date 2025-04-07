@@ -14,6 +14,7 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
   const session = useSession();
   const subscriptionStatus = session?.data?.user?.subscriptionStatus;
 
+
   return (
     <div
       className={`min-h-screen p-6 text-black transition-colors duration-500 ${currentTheme.background} rounded-lg`}
