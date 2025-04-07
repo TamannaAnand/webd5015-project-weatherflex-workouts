@@ -4,109 +4,15 @@ import PremiumGemini from "../PremiumGemini";
 import FreeGemini from "../FreeGemini";
 import { useSession } from "next-auth/react";
 import WorkoutTracker from "./WorkoutTracker";
+import { useWeatherTheme } from "@/utils/useWeatherTheme";
 
-// Weather theme configuration with more realistic colors
-const weatherThemes = {
-  sunny: {
-    background: "bg-yellow-300",
-    card: "bg-orange-400",
-    accent: "text-red-700",
-    shadow: "shadow-orange-500",
-    header: "text-yellow-900",
-  },
-  clear: {
-    background: "bg-sky-400",
-    card: "bg-blue-500",
-    accent: "text-blue-900",
-    shadow: "shadow-sky-600",
-    header: "text-sky-950",
-  },
-  cloudy: {
-    background: "bg-indigo-300",
-    card: "bg-indigo-400",
-    accent: "text-indigo-800",
-    shadow: "shadow-indigo-500",
-    header: "text-indigo-950",
-  },
-  rainy: {
-    background: "bg-blue-500",
-    card: "bg-blue-600",
-    accent: "text-blue-100",
-    shadow: "shadow-blue-700",
-    header: "text-blue-50",
-  },
-  snowy: {
-    background: "bg-cyan-300",
-    card: "bg-cyan-400",
-    accent: "text-cyan-900",
-    shadow: "shadow-cyan-500",
-    header: "text-cyan-950",
-  },
-  stormy: {
-    background: "bg-purple-700",
-    card: "bg-purple-800",
-    accent: "text-purple-200",
-    shadow: "shadow-purple-900",
-    header: "text-purple-100",
-  },
-  foggy: {
-    background: "bg-violet-300",
-    card: "bg-violet-400",
-    accent: "text-violet-900",
-    shadow: "shadow-violet-500",
-    header: "text-violet-950",
-  },
-  mild: {
-    background: "bg-emerald-300",
-    card: "bg-emerald-400",
-    accent: "text-emerald-900",
-    shadow: "shadow-emerald-600",
-    header: "text-emerald-950",
-  },
-  default: {
-    background: "bg-rose-300",
-    card: "bg-pink-400",
-    accent: "text-rose-900",
-    shadow: "shadow-pink-500",
-    header: "text-rose-950",
-  },
-};
 
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
-  const [currentTheme, setCurrentTheme] = useState<any>(null);
+  const currentTheme = useWeatherTheme(weatherData? weatherData : null);
+
   const session = useSession();
   const subscriptionStatus = session?.data?.user?.subscriptionStatus;
-
-  useEffect(() => {
-    if (!weatherData || !weatherData.currentWeather) return;
-
-    const condition = weatherData.currentWeather.condition.toLowerCase();
-    const isDaytime = weatherData.currentWeather.icon?.includes("d") || false;
-
-    let theme = weatherThemes.default;
-
-    if (condition.includes("clear") || condition.includes("sun")) {
-      theme = isDaytime ? weatherThemes.sunny : weatherThemes.clear;
-    } else if (condition.includes("cloud") || condition.includes("overcast")) {
-      theme = weatherThemes.cloudy;
-    } else if (condition.includes("rain") || condition.includes("drizzle") || condition.includes("shower")) {
-      theme = weatherThemes.rainy;
-    } else if (condition.includes("snow") || condition.includes("sleet") || condition.includes("blizzard")) {
-      theme = weatherThemes.snowy;
-    } else if (condition.includes("thunder") || condition.includes("storm") || condition.includes("lightning")) {
-      theme = weatherThemes.stormy;
-    } else if (condition.includes("mist") || condition.includes("fog") || condition.includes("haze")) {
-      theme = weatherThemes.foggy;
-    } else if (condition.includes("mild") || condition.includes("fair") || condition.includes("pleasant")) {
-      theme = weatherThemes.mild;
-    }
-
-    setCurrentTheme(theme);
-  }, [weatherData]);
-
-  // Prevent render until theme is ready
-  if (!currentTheme) return null;
 
 
   return (
@@ -200,7 +106,7 @@ const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
         </div>
 
         <div className="flex-2">
-          <WorkoutTracker weatherData={weatherData} weatherThemes={weatherThemes} />
+          <WorkoutTracker weatherData={weatherData} currentTheme={currentTheme} />
         </div>
       </div>
     </div>
