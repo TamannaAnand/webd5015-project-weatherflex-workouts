@@ -40,8 +40,8 @@ const Dashboard = () => {
 
   return (
     <div className={`min-h-screen p-6 text-black transition-colors duration-500 ${currentTheme.background} rounded-lg`}>
-      <div className={`flex items-center justify-between mb-6 ${currentTheme.background}`}>
-        <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Weatherflex Workouts</h1>
+      <div className={`flex items-center justify-between mb-6`}>
+        <h1 className="text-3xl font-semibold text-black-900 p-3 dark:text-white">Weatherflex Workouts</h1>
         <div className="flex items-center space-x-4">
           <button onClick={handleSignOut} className="rounded-md bg-primary px-3 py-2 text-sm font-medium text-white shadow-sm hover:bg-primary/90">
             Sign Out
