@@ -74,55 +74,40 @@ const weatherThemes = {
 
 
 const WeatherInfo = ({ weatherData }: { weatherData: any }) => {
-  const [currentTheme, setCurrentTheme] = useState(weatherThemes.default);
-
+  const [currentTheme, setCurrentTheme] = useState<any>(null);
   const session = useSession();
   const subscriptionStatus = session?.data?.user?.subscriptionStatus;
 
   useEffect(() => {
-    // Determine theme based on current weather condition
     if (!weatherData || !weatherData.currentWeather) return;
 
     const condition = weatherData.currentWeather.condition.toLowerCase();
     const isDaytime = weatherData.currentWeather.icon?.includes("d") || false;
 
+    let theme = weatherThemes.default;
+
     if (condition.includes("clear") || condition.includes("sun")) {
-      // Differentiate between sunny day and clear night
-      setCurrentTheme(isDaytime ? weatherThemes.sunny : weatherThemes.clear);
+      theme = isDaytime ? weatherThemes.sunny : weatherThemes.clear;
     } else if (condition.includes("cloud") || condition.includes("overcast")) {
-      setCurrentTheme(weatherThemes.cloudy);
-    } else if (
-      condition.includes("rain") ||
-      condition.includes("drizzle") ||
-      condition.includes("shower")
-    ) {
-      setCurrentTheme(weatherThemes.rainy);
-    } else if (
-      condition.includes("snow") ||
-      condition.includes("sleet") ||
-      condition.includes("blizzard")
-    ) {
-      setCurrentTheme(weatherThemes.snowy);
-    } else if (
-      condition.includes("thunder") ||
-      condition.includes("storm") ||
-      condition.includes("lightning")
-    ) {
-      setCurrentTheme(weatherThemes.stormy);
-    } else if (
-      condition.includes("mist") ||
-      condition.includes("fog") ||
-      condition.includes("haze")
-    ) {
-      setCurrentTheme(weatherThemes.foggy);
-    } else if (
-      condition.includes("mild") ||
-      condition.includes("fair") ||
-      condition.includes("pleasant")
-    ) {
-      setCurrentTheme(weatherThemes.mild);
+      theme = weatherThemes.cloudy;
+    } else if (condition.includes("rain") || condition.includes("drizzle") || condition.includes("shower")) {
+      theme = weatherThemes.rainy;
+    } else if (condition.includes("snow") || condition.includes("sleet") || condition.includes("blizzard")) {
+      theme = weatherThemes.snowy;
+    } else if (condition.includes("thunder") || condition.includes("storm") || condition.includes("lightning")) {
+      theme = weatherThemes.stormy;
+    } else if (condition.includes("mist") || condition.includes("fog") || condition.includes("haze")) {
+      theme = weatherThemes.foggy;
+    } else if (condition.includes("mild") || condition.includes("fair") || condition.includes("pleasant")) {
+      theme = weatherThemes.mild;
     }
+
+    setCurrentTheme(theme);
   }, [weatherData]);
+
+  // Prevent render until theme is ready
+  if (!currentTheme) return null;
+
 
   return (
     <div
