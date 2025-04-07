@@ -6,8 +6,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import SocialSignIn from "../SocialSignIn";
-import SwitchOption from "../SwitchOption";
-import MagicLink from "../MagicLink";
+// import SwitchOption from "../SwitchOption";
+// import MagicLink from "../MagicLink";
 import Loader from "@/components/Common/Loader";
 import { Session } from "next-auth";
 
@@ -111,12 +111,12 @@ const Signin = () => {
                 </span>
               </span>
 
-              <SwitchOption
+              {/* <SwitchOption
                 isPassword={isPassword}
                 setIsPassword={setIsPassword}
-              />
+              /> */}
 
-              {isPassword ? (
+              {/* {isPassword ? ( */}
                 <form onSubmit={(e) => e.preventDefault()}>
                   <div className="mb-[22px]">
                     <input
@@ -148,9 +148,9 @@ const Signin = () => {
                     </button>
                   </div>
                 </form>
-              ) : (
+              {/* ) : (
                 <MagicLink />
-              )}
+              )} */}
 
               <Link
                 href="/forgot-password"
@@ -165,7 +165,7 @@ const Signin = () => {
                 </Link>
               </p>
 
-              <div>
+              {/* <div>
                 <span className="absolute right-1 top-1">
                   <svg
                     width="40"
@@ -382,7 +382,7 @@ const Signin = () => {
                     />
                   </svg>
                 </span>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
