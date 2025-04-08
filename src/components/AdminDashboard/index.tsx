@@ -5,7 +5,7 @@ import useSignOut from "@/utils/useSignOut";
 import { User } from "next-auth"
 
 const AdminDashboard = () => {
-  const [users, setUser] = useState([]);
+  const [users, setUsers] = useState([]); // Fixed variable name
   const handleSignOut = useSignOut();
   const router = useRouter();
 
@@ -14,7 +14,7 @@ const AdminDashboard = () => {
       try {
         const response = await fetch("/api/users");
         const data = await response.json();
-        setUser(data);
+        setUsers(data); // Fixed variable name
       } catch (error) {
         console.error("Error fetching users:", error);
       }
@@ -24,8 +24,8 @@ const AdminDashboard = () => {
   }, []);
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="max-w-7xl mx-auto p-6 space-y-6">
+      <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">
           Admin Dashboard
         </h1>
@@ -45,60 +45,61 @@ const AdminDashboard = () => {
         </div>
       </div>
 
-      <table className="w-full border-collapse border border-gray-200">
-        <thead className="bg-gray-200">
-          <tr>
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              User ID
-            </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Username
-            </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Email
-            </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Subscription Status
-            </th>
-            <th className="border border-gray-300 px-4 py-2 text-left">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user: any) => (
-            <tr key={user.id} className="hover:bg-gray-100">
-              <td className="border border-gray-300 px-4 py-2">{user.id}</td>
-              <td className="border border-gray-300 px-4 py-2">{user.name}</td>
-              <td className="border border-gray-300 px-4 py-2">{user.email}</td>
-              <td className="border border-gray-300 px-4 py-2">
-                {user.subscriptionStatus}
-              </td>
-              <td className="space-x-1 border border-gray-300 px-4 py-2 text-center">
-                <button
-                  onClick={() => router.push(`/adminDashboard/details/${user.id}`)}
-                  className="rounded bg-green-500 px-2 py-1 text-sm text-white hover:bg-green-600"
-                >
-                  Details
-                </button>
-                <button
-                  onClick={() => router.push(`/adminDashboard/update/${user.id}`)}
-
-                  className="rounded bg-blue-500 px-2 py-1 text-sm text-white hover:bg-blue-600"
-                >
-                  Edit
-                </button>
-                <button
-                  onClick={() => router.push(`/adminDashboard/delete/${user.id}`)}
-                  className="rounded bg-red-500 px-2 py-1 text-sm text-white hover:bg-red-600"
-                >
-                  Delete
-                </button>
-              </td>
+      <div className="bg-white dark:bg-gray-800 shadow-sm rounded-lg overflow-hidden">
+        <table className="w-full">
+          <thead className="bg-gray-100 dark:bg-gray-700">
+            <tr>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-200">
+                User ID
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-200">
+                Username
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-200">
+                Email
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-200">
+                Subscription Status
+              </th>
+              <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 dark:text-gray-200">
+                Actions
+              </th>
             </tr>
-          ))}
-        </tbody>
-      </table>
+          </thead>
+          <tbody className="divide-y divide-gray-200 dark:divide-gray-600">
+            {users.map((user) => (
+              <tr key={user.id} className="hover:bg-gray-50 dark:hover:bg-gray-700">
+                <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{user.id}</td>
+                <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{user.name}</td>
+                <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">{user.email}</td>
+                <td className="px-4 py-3 text-sm text-gray-700 dark:text-gray-300">
+                  {user.subscriptionStatus}
+                </td>
+                <td className="px-4 py-3 text-sm space-x-2">
+                  <button
+                    onClick={() => router.push(`/adminDashboard/details/${user.id}`)}
+                    className="rounded bg-green-500 px-2 py-1 text-xs text-white hover:bg-green-600"
+                  >
+                    Details
+                  </button>
+                  <button
+                    onClick={() => router.push(`/adminDashboard/update/${user.id}`)}
+                    className="rounded bg-blue-500 px-2 py-1 text-xs text-white hover:bg-blue-600"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => router.push(`/adminDashboard/delete/${user.id}`)}
+                    className="rounded bg-red-500 px-2 py-1 text-xs text-white hover:bg-red-600"
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };
