@@ -1,70 +1,67 @@
-// src/styles/weatherTheme.ts
-
-// Weather theme configuration with realistic colors
 export const weatherThemes = {
   sunny: {
-    background: "bg-yellow-300",
-    card: "bg-orange-400",
-    accent: "text-red-700",
-    shadow: "shadow-orange-500",
-    header: "text-yellow-900",
+    background: "bg-amber-200/70",
+    card: "bg-amber-300/80",
+    accent: "text-orange-600",
+    shadow: "shadow-amber-400/50",
+    header: "text-amber-800",
   },
   clear: {
-    background: "bg-sky-400",
-    card: "bg-blue-500",
-    accent: "text-blue-900",
-    shadow: "shadow-sky-600",
-    header: "text-sky-950",
+    background: "bg-sky-200/70",
+    card: "bg-sky-300/80",
+    accent: "text-blue-600",
+    shadow: "shadow-sky-400/50",
+    header: "text-sky-800",
   },
   cloudy: {
-    background: "bg-indigo-300",
-    card: "bg-indigo-400",
-    accent: "text-indigo-800",
-    shadow: "shadow-indigo-500",
-    header: "text-indigo-950",
+    background: "bg-indigo-200/70",
+    card: "bg-indigo-300/80",
+    accent: "text-indigo-600",
+    shadow: "shadow-indigo-400/50",
+    header: "text-indigo-800",
   },
   rainy: {
-    background: "bg-blue-500",
-    card: "bg-blue-600",
-    accent: "text-blue-100",
-    shadow: "shadow-blue-700",
-    header: "text-blue-50",
+    background: "bg-blue-200/70",
+    card: "bg-blue-300/80",
+    accent: "text-blue-600",
+    shadow: "shadow-blue-400/50",
+    header: "text-blue-800",
   },
   snowy: {
-    background: "bg-cyan-300",
-    card: "bg-cyan-400",
-    accent: "text-cyan-900",
-    shadow: "shadow-cyan-500",
-    header: "text-cyan-950",
+    background: "bg-teal-200/70",
+    card: "bg-teal-300/80",
+    accent: "text-teal-700",
+    shadow: "shadow-teal-400/50",
+    header: "text-teal-800",
   },
   stormy: {
-    background: "bg-purple-700",
-    card: "bg-purple-800",
-    accent: "text-purple-200",
-    shadow: "shadow-purple-900",
-    header: "text-purple-100",
+    background: "bg-purple-300/70",
+    card: "bg-purple-400/80",
+    accent: "text-purple-600",
+    shadow: "shadow-purple-500/50",
+    header: "text-purple-800",
   },
   foggy: {
-    background: "bg-violet-300",
-    card: "bg-violet-400",
-    accent: "text-violet-900",
-    shadow: "shadow-violet-500",
-    header: "text-violet-950",
+    background: "bg-gray-200/70",
+    card: "bg-gray-300/80",
+    accent: "text-orange-500",
+    shadow: "shadow-gray-400/50",
+    header: "text-gray-700",
   },
   mild: {
-    background: "bg-emerald-300",
-    card: "bg-emerald-400",
-    accent: "text-emerald-900",
-    shadow: "shadow-emerald-600",
-    header: "text-emerald-950",
+    background: "bg-emerald-200/70",
+    card: "bg-emerald-300/80",
+    accent: "text-emerald-600",
+    shadow: "shadow-emerald-400/50",
+    header: "text-emerald-800",
   },
   default: {
-    background: "bg-rose-300",
-    card: "bg-pink-400",
-    accent: "text-rose-900",
-    shadow: "shadow-pink-500",
-    header: "text-rose-950",
-  },
+    background: "bg-rose-200/70",
+    card: "bg-rose-300/80",
+    accent: "text-rose-600",
+    shadow: "shadow-rose-400/50",
+    header: "text-rose-800",
+  }
 };
 
 export type WeatherThemeType = keyof typeof weatherThemes;
@@ -117,20 +114,13 @@ export const getWeatherTheme = (
   return weatherThemes.default;
 };
 
-// Example hook for using weather themes in components
-import { useState, useEffect } from "react";
-
 export const useWeatherTheme = (weatherData: any) => {
-  const [currentTheme, setCurrentTheme] = useState(weatherThemes.default || null);
 
-  useEffect(() => {
-    if (!weatherData || !weatherData.currentWeather) return;
+  if (!weatherData) return weatherThemes.default;
 
-    const condition = weatherData.currentWeather.condition;
-    const isDaytime = weatherData.currentWeather.icon?.includes("d") || false;
-    
-    setCurrentTheme(getWeatherTheme(condition, isDaytime));
-  }, [weatherData]);
+  const condition = weatherData.currentWeather.condition;
+  const isDaytime = weatherData.currentWeather.icon?.includes("d") || false;
+  const theme = getWeatherTheme(condition, isDaytime)
 
-  return currentTheme;
+  return theme;
 };
