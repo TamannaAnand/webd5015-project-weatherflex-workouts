@@ -15,7 +15,7 @@ export default withAuth(
 
     // Restrict access to /adminDashboard for users who are not admins
     if (pathname.startsWith('/adminDashboard')) {
-      if (token?.role !== 'admin') {
+      if (token?.role !== 'Admin') {
         return NextResponse.redirect(new URL('/weatherflex', req.url)); // Or redirect elsewhere
       }
     }
