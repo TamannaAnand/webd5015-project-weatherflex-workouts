@@ -11,10 +11,18 @@ export default function SuccessPage() {
 
 
   useEffect(() => {
-    async function updateSubscription() {
+    async function verifyAndUpdate() {
+      const params = new URLSearchParams(window.location.search);
+      const sessionId = params.get("session_id");
+  
+      if (!sessionId || !session?.user) return;
+  
       try {
-        if (session?.user && session.user?.subscriptionStatus !== "Premium") {
-          // update
+        const res = await fetch(`/api/payment?session_id=${sessionId}`);
+        const data = await res.json();
+  
+        if (data.success) {
+          // Update DB optimistically via next-auth
           await update({
             ...session,
             user: {
@@ -22,19 +30,21 @@ export default function SuccessPage() {
               subscriptionStatus: "Premium",
             },
           });
-
-          // After updating the session, redirect to profile
+  
           router.push("/weatherflex/profile");
+        } else {
+          console.error("Payment not completed or invalid.");
         }
       } catch (error) {
-        console.error("Error updating subscription:", error);
+        console.error("Error verifying subscription:", error);
       } finally {
         setIsLoading(false);
       }
     }
-
-    updateSubscription();
+  
+    verifyAndUpdate();
   }, [session, router]);
+  
 
   return (
     <div className="flex min-h-screen items-center justify-center">
