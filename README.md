@@ -13,7 +13,7 @@ WeatherFlex Workouts is a web application designed to provide personalized worko
 
 ## Tech Stack
 
-- Template: [Play Next.js] (https://play.demo.nextjstemplates.com/)
+- Template: Play Next.js (https://play.demo.nextjstemplates.com/)
 - Frontend: React (with Next.js)
 - Backend: Next.js App Router (API routes)
 - Database: PostgreSQL (Neon)
